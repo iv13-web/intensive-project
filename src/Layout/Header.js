@@ -32,11 +32,10 @@ export default function Header({children}) {
 
 	return (
 		<div className={s.grow}>
-			<AppBar position="static" elevation={0}>
+			<AppBar position="sticky" elevation={0}>
 				<Toolbar className={s.toolbar}>
 					<RootLogo/>
 					<SearchBar/>
-
 					<IconButton
 						edge="end"
 						aria-haspopup="true"

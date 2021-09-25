@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   inputRoot: {
-    width: '480px',
+    width: '100%',
     color: 'inherit',
   },
   inputInput: {

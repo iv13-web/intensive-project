@@ -27,7 +27,7 @@ export default function RootLogo() {
 
   return (
     <BrowserLink to='/'>
-      <div className={s.logo}>
+      <div className={s.logo} >
         <EqualizerIcon
           className={s.icon}
           color={mainPageSelected ? 'action' : 'inherit'}

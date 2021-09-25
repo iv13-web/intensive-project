@@ -15,9 +15,13 @@ export const moviesApi = createApi({
 			// 	: [{type: 'Movies', id: 'List'}],
 			// // invalidatesTags: [{type: 'Movies', id: 'List'}]
 		}),
+		getMovieById: build.query({
+			// query: (id) => `${list}?${apiKey}&language=en&page=${page}`,
+		}),
 	})
 })
 
 export const {
 	useGetMoviesQuery,
+	useGetMovieByIdQuery,
 } = moviesApi

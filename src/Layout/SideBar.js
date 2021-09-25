@@ -3,7 +3,6 @@ import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import Divider from '@material-ui/core/Divider'
 import {headerHeight, sideBarWidth} from './constants'
-import NewReleasesOutlinedIcon from '@material-ui/icons/NewReleasesOutlined'
 import ScheduleOutlinedIcon from '@material-ui/icons/ScheduleOutlined'
 import WhatshotOutlinedIcon from '@material-ui/icons/WhatshotOutlined'
 import EmojiEventsOutlinedIcon from '@material-ui/icons/EmojiEventsOutlined'
@@ -26,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: sideBarWidth,
     position: 'sticky',
+    top: headerHeight,
     height: `calc(100vh - ${headerHeight}px)`,
   },
   content: {
@@ -35,11 +35,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const linkItems = [
-  {
-    text: 'Latest releases',
-    icon: <NewReleasesOutlinedIcon color='inherit'/>,
-    path: '/latest'
-  },
   {
     text: 'Now playing',
     icon: <ScheduleOutlinedIcon color='inherit'/>,
