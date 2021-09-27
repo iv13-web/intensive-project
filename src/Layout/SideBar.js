@@ -9,6 +9,7 @@ import EmojiEventsOutlinedIcon from '@material-ui/icons/EmojiEventsOutlined'
 import ConfirmationNumberOutlinedIcon from '@material-ui/icons/ConfirmationNumberOutlined'
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined'
 import NavLinks from '../components/NavLinks'
+import {useSelector} from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,43 +35,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const linkItems = [
-  {
-    text: 'Now playing',
-    icon: <ScheduleOutlinedIcon color='inherit'/>,
-    path: '/now_playing'
-  },
-  {
-    text: 'Popular',
-    icon: <WhatshotOutlinedIcon color='inherit'/>,
-    path: '/popular'
-  },
-  {
-    text: 'Top Rated',
-    icon: <EmojiEventsOutlinedIcon color='inherit'/>,
-    path: '/top_rated'
-  },
-  {
-    text: 'Upcoming',
-    icon: <ConfirmationNumberOutlinedIcon color='inherit'/>,
-    path: '/upcoming'
-  },
-  {
-    text: 'Favorite',
-    icon: <FavoriteBorderOutlinedIcon color='inherit'/>,
-    path: '/favorite'
-  }
-]
-
 export default function SideBar({children}) {
-  const classes = useStyles()
+  const s = useStyles()
+  const lists = useSelector(state => state.pages)
+  const linkItems = [
+    {
+      text: 'Now playing',
+      icon: <ScheduleOutlinedIcon color='inherit'/>,
+      path: `/now_playing/${lists['now_playing']}`,
+    },
+    {
+      text: 'Popular',
+      icon: <WhatshotOutlinedIcon color='inherit'/>,
+      path: `/popular/${lists['popular']}`,
+    },
+    {
+      text: 'Top Rated',
+      icon: <EmojiEventsOutlinedIcon color='inherit'/>,
+      path: `/top_rated/${lists['top_rated']}`,
+    },
+    {
+      text: 'Upcoming',
+      icon: <ConfirmationNumberOutlinedIcon color='inherit'/>,
+      path: `/upcoming/${lists['upcoming']}`,
+    },
+    {
+      text: 'Favorite',
+      icon: <FavoriteBorderOutlinedIcon color='inherit'/>,
+      path: `/favorite`,
+    }
+  ]
 
   return (
-    <div className={classes.root} >
+    <div className={s.root} >
       <Drawer
-        className={classes.drawer}
+        className={s.drawer}
         variant="permanent"
-        classes={{paper: classes.drawerPaper}}
+        classes={{paper: s.drawerPaper}}
         anchor="left"
       >
         <NavLinks linkItems={linkItems}/>
@@ -79,7 +80,7 @@ export default function SideBar({children}) {
           {/* ИСТОРИЯ ПОИСКА */}
         </List>
       </Drawer>
-      <main className={classes.content}>
+      <main className={s.content}>
         {children}
       </main>
     </div>
