@@ -1,5 +1,4 @@
 export const transformGetMovies = (response) => {
-	console.log(response)
 	const totalPages = response.total_pages
 	const updated = response.results.map(movie => ({
 		poster: movie.poster_path,
