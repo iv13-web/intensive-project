@@ -39,15 +39,15 @@ const useStyles = makeStyles(theme => {
 
 export default function MovieCard({data}) {
   const s = useStyles()
-  const {original_title: title, poster_path: poster, id} = data
-  const [imgIsReady, setImgIsReady] = useState(false)
-  const imgLoad = e => setImgIsReady(true)
+  const {poster, title, id} = data
+  let [isImgReady, setIsImgReady] = useState(false)
+  const onImgLoad = e => setIsImgReady(true)
 
   return (
     <Grid item xs={6} md={4} lg={3} xl={2} className={s.root}>
       <div className={s.card}>
         <CardButtons data={data}/>
-        {!imgIsReady &&
+        {!isImgReady &&
           <LazyLoadWrapper delay={500}>
             <SkeletonCard/>
           </LazyLoadWrapper>
@@ -55,16 +55,17 @@ export default function MovieCard({data}) {
         <BrowserLink to={`/movie/${id}`}>
           <div className={s.wrapper}>
             <img
-              onLoad={e => imgLoad(e)}
+              onLoad={onImgLoad}
               className={s.image}
               src={poster ? IMG_URL + poster : noPoster}
-              alt={imgIsReady ? title : ''}
+              alt={isImgReady ? title : ''}
             />
           </div>
         </BrowserLink>
-        {imgIsReady
+        {isImgReady
           ? <Typography variant='subtitle2' noWrap>
-              {title}</Typography>
+              {title}
+            </Typography>
           : <LazyLoadWrapper delay={500}>
               <Skeleton variant="text"/>
             </LazyLoadWrapper>

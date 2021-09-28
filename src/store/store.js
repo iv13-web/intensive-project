@@ -3,18 +3,17 @@ import authSlice from './authSlice'
 import pagesSlice, {storeCurrentPage} from './pagesSlice'
 import moviesSlice, {addToFavorite, removeFromFavorite} from './moviesSlice'
 import {moviesApi} from './moviesApi'
+import {storage} from '../utils/utils'
 
-const localStorageMiddleware = store => next => action => {
-	const result = next(action)
+const localStorageMiddleware = ({getState}) => next => action => {
+	next(action)
 	if (storeCurrentPage.match(action)) {
-		const pages = store.getState().pages
-		localStorage.setItem('pages', JSON.stringify(pages))
+		storage('pages', getState().pages)
 	}
 	if (addToFavorite.match(action) || removeFromFavorite.match(action)) {
 		const favorites = store.getState().movies.savedMovies
 		localStorage.setItem('favorites', JSON.stringify(favorites))
 	}
-	return result
 }
 
 export const store = configureStore({

@@ -1,8 +1,8 @@
 import {useHistory, useParams} from 'react-router-dom/cjs/react-router-dom'
 import {useGetMoviesQuery} from '../store/moviesApi'
 import CardContainer from '../components/CardContainer'
-import MovieCard from '../components/Card'
-import Paginator from '../components/Pagination'
+import MovieCard from '../components/MovieCard'
+import Paginator from '../components/Paginatior'
 import {useDispatch} from 'react-redux'
 import {storeCurrentPage} from '../store/pagesSlice'
 import {useEffect} from 'react'
@@ -24,7 +24,9 @@ export default function Catalog() {
   const history = useHistory()
   const dispatch = useDispatch()
   const {data, isSuccess} = useGetMoviesQuery({list, page})
-  const pagesCount = data?.total_pages
+  const pagesCount = data?.totalPages
+  const moviesData = data?.results
+
   const handlePageChange = (e, page) => history.push(`/${list}/${page}`)
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export default function Catalog() {
   return (
     <>
       <CardContainer>
-        {isSuccess && data?.results.map(movie => (
+        {isSuccess && moviesData.map(movie => (
           <MovieCard
             data={movie}
             key={movie.id}
@@ -42,7 +44,7 @@ export default function Catalog() {
           />
         ))}
       </CardContainer>
-      {isSuccess &&<Paginator
+      {isSuccess && <Paginator
         count={pagesCount}
         page={Number(page)}
         handlePageChange={handlePageChange}

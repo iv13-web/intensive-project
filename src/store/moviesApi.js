@@ -1,4 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import {transformGetMovies} from './transformHelpers'
 const apiKey = 'api_key=9adffccf59c02bd0dc729c1d92ccd822'
 export const IMG_URL = 'https://image.tmdb.org/t/p/w500'
 export const moviesApi = createApi({
@@ -7,6 +8,7 @@ export const moviesApi = createApi({
 	endpoints: (build) => ({
 		getMovies: build.query({
 			query: ({list, page}) => `${list}?${apiKey}&language=en&page=${page}`,
+			transformResponse: transformGetMovies
 		}),
 		getMovieById: build.query({
 			// query: (id) => `${list}?${apiKey}&language=en&page=${page}`,
