@@ -7,7 +7,7 @@ import Favorite from './pages/Favorite'
 import Layout from './layout/Layout'
 import ScrollToTop from './layout/ScrollToTop'
 import {SnackbarProvider} from 'notistack'
-import MovieDetails from './pages/MovieDetails'
+import Movie from './pages/Movie/Movie'
 
 export default function App() {
   return (
@@ -19,7 +19,7 @@ export default function App() {
             <Switch>
               <Route exact path='/' component={Home}/>
               <Route path='/favorite' component={Favorite}/>
-              <Route path='/movie/:id' component={MovieDetails}/>
+              <Route path='/movie/:id' component={Movie}/>
               <Route path='/:list/:page' component={Catalog}/>
             </Switch>
           </Layout>
