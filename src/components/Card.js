@@ -7,37 +7,46 @@ import SkeletonCard from './SkeletonCard'
 import {IMG_URL} from '../store/moviesApi'
 import LazyLoadWrapper from './LazyLoadWrapper'
 import noPoster from '../assets/poster-placeholder.png'
+import CardButtons from './CardButtons'
 
-const useStyles = makeStyles({
-  wrapper: {
-    overflow: 'hidden'
-  },
-  card: {
-    position: 'relative',
-  },
-  image: {
-    transition: 'transform .3s ease',
-    objectFit: 'cover',
-    width: '100%',
-    display: 'block',
-    '&:hover': {
-      transform: 'scale(1.1)'
+const useStyles = makeStyles(theme => {
+  return {
+    root: {
+      '& .appear-item': {
+        opacity: 0,
+      },
+      '&:hover .appear-item': {
+        opacity: 1
+      }
+    },
+    wrapper: {
+      overflow: 'hidden'
+    },
+    card: {
+      position: 'relative'
+    },
+    image: {
+      transition: 'transform .3s ease',
+      objectFit: 'cover',
+      width: '100%',
+      display: 'block',
+      '&:hover': {
+        transform: 'scale(1.05)'
+      }
     }
-  },
-  cardText: {
-    textAlign: 'center',
   }
 })
 
 export default function MovieCard({data}) {
   const s = useStyles()
   const {original_title: title, poster_path: poster, id} = data
-  let [imgIsReady, setImgIsReady] = useState(false)
+  const [imgIsReady, setImgIsReady] = useState(false)
   const imgLoad = e => setImgIsReady(true)
 
   return (
-    <Grid item xs={6} md={4} lg={3} xl={2}>
+    <Grid item xs={6} md={4} lg={3} xl={2} className={s.root}>
       <div className={s.card}>
+        <CardButtons data={data}/>
         {!imgIsReady &&
           <LazyLoadWrapper delay={500}>
             <SkeletonCard/>
