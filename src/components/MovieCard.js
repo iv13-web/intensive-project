@@ -8,6 +8,8 @@ import LazyLoadWrapper from './LazyLoadWrapper'
 import noPoster from '../assets/poster-placeholder.png'
 import classnames from 'classnames'
 import FavoriteButton from './FavoriteButton'
+import {useDispatch, useSelector} from 'react-redux'
+import {toggleFavorite} from '../store/moviesSlice'
 
 const useStyles = makeStyles(theme => {
   return {
@@ -52,6 +54,8 @@ const useStyles = makeStyles(theme => {
 
 export default function MovieCard({data}) {
   const s = useStyles()
+  const dispatch = useDispatch()
+  const favorites = useSelector(state => state.movies.favorites)
   const {poster, title, id} = data
   const [isImgReady, setIsImgReady] = useState(false)
   const onImgLoad = e => setIsImgReady(true)
@@ -60,14 +64,17 @@ export default function MovieCard({data}) {
     <Grid item xs={6} md={4} lg={3} xl={2} className={s.root}>
       <div className={s.card}>
         <CardActions className={classnames(s.actions, 'appear-item')}>
-          <FavoriteButton data={data}/>
+          <FavoriteButton
+            onClick={() => dispatch(toggleFavorite(data))}
+            isSaved={favorites[data.id]}
+          />
         </CardActions>
         {!isImgReady &&
           <LazyLoadWrapper delay={500}>
             <SkeletonCard/>
           </LazyLoadWrapper>
         }
-        <BrowserLink to={`/movie/${id}`}>
+        <BrowserLink to={`/movie/${id}/images`}>
           <div className={s.wrapper}>
             <img
               onLoad={onImgLoad}

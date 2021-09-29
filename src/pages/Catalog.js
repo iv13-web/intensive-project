@@ -6,20 +6,10 @@ import Paginator from '../components/Paginatior'
 import {useDispatch} from 'react-redux'
 import {storeCurrentPage} from '../store/pagesSlice'
 import {useEffect} from 'react'
-import {makeStyles} from '@material-ui/core/styles'
-
-const useStyles = makeStyles(theme => {
-  return {
-    wrapper: {
-      background: '#FFF',
-      zIndex: 100,
-      position: 'relative'
-    }
-  }
-})
+import ScrollToTop from '../layout/ScrollToTop'
+import SkeletonCard from '../components/SkeletonCard'
 
 export default function Catalog() {
-  const s = useStyles()
   const {list, page} = useParams()
   const history = useHistory()
   const dispatch = useDispatch()
@@ -35,6 +25,7 @@ export default function Catalog() {
 
   return (
     <>
+      <ScrollToTop deps={[list, page]}/>
       <CardContainer>
         {isSuccess && moviesData.map(movie => (
           <MovieCard

@@ -5,30 +5,35 @@ const useStyles = makeStyles(theme => {
   return {
     mainWrapper: {
       display: 'flex',
+      marginBottom: 80,
     },
     image: {
       height: 450,
       marginRight: 24
     },
     textWrapper: {
-      height: 450,
       boxSizing: 'border-box',
       width: '60%',
     },
     pointCell: {
-      width: 80,
-      verticalAlign: 'top'
+      width: 96,
+      verticalAlign: 'top',
+      maxHeight: 160,
+      overflow: 'hidden'
     }
   }
 })
 
-const points = [
+const ROW_TITLES = [
   'overview',
   'rating',
   'release',
   'runtime',
   'countries',
-  'genres'
+  'companies',
+  'genres',
+  'budget',
+  'revenue',
 ]
 
 const createCellText = (point, separator) => (
@@ -53,10 +58,10 @@ export default function Intro({data}) {
         </Typography>
         <table>
           <tbody>
-            {points.map(point => (
-              <tr key={point}>
-                <td className={s.pointCell}>{createCellText(point, ':')}</td>
-                <td>{createCellText(data[point])}</td>
+            {ROW_TITLES.map(rowTitle => (
+              <tr key={rowTitle}>
+                <td className={s.pointCell}>{createCellText(rowTitle, ':')}</td>
+                <td>{createCellText(data[rowTitle])}</td>
               </tr>
             ))}
           </tbody>

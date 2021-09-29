@@ -5,18 +5,19 @@ import PagePlaceholder from '../components/PagePlaceholder'
 import {ReactComponent as NoFavorites} from '../assets/no-favorites.svg'
 
 export default function Favorite() {
-  const savedMovies = useSelector(state => state.movies.savedMovies)
+  const favorites = useSelector(state => state.movies.favorites)
+  const data = Object.values(favorites)
 
   return (
     <>
-      {!savedMovies.length &&
+      {!data.length &&
         <PagePlaceholder
           image={<NoFavorites/>}
           text='No favorites yet'
         />
       }
       <CardContainer>
-        {savedMovies && savedMovies.map(movie => (
+        {data.map(movie => (
           <MovieCard
             data={movie}
             key={movie.id}

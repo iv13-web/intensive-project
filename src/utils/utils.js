@@ -8,3 +8,9 @@ export function storage (key, data, fallback) {
 	}
 	localStorage.setItem(key, JSON.stringify(data))
 }
+
+export function numberWithSeparator(number, separator = ' ') {
+	const parts = number.toString().split('.')
+	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, separator)
+	return parts.join('.')
+}

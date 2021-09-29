@@ -1,27 +1,24 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {storage} from '../utils/utils'
 
-const DEFAULT_STATE = {
-	savedMovies: []
+const initialState = {
+	favorites: {}
 }
-
-const initialState = storage('favorites')
-	? {savedMovies: storage('favorites', null, DEFAULT_STATE.savedMovies)}
-	: DEFAULT_STATE
 
 const moviesSlice = createSlice({
 	name: 'movies',
 	initialState,
 	reducers: {
-		addToFavorite: (state, {payload}) => {
-			state.savedMovies.push(payload)
+		initFavorites: (state, {payload}) => {
+			if(!payload) return initialState
+			state.favorites = {...payload}
 		},
-		removeFromFavorite: (state, {payload}) => {
-			state.savedMovies = state.savedMovies.filter(el => el.id !== payload)
-		},
-		savedMoviesCount: (state) => state.savedMovies.length
-	}
+		toggleFavorite: (state, {payload}) => {
+			state.favorites[payload.id]
+				? delete state.favorites[payload.id]
+				: state.favorites[payload.id] = payload
+		}
+	},
 })
 
-export default moviesSlice.reducer
-export const {addToFavorite, removeFromFavorite, savedMoviesCount} = moviesSlice.actions
+export const moviesReducer = moviesSlice.reducer
+export const {toggleFavorite, initFavorites} = moviesSlice.actions

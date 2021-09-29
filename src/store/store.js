@@ -1,26 +1,17 @@
 import {configureStore} from '@reduxjs/toolkit'
-import authSlice from './authSlice'
-import pagesSlice, {storeCurrentPage} from './pagesSlice'
-import moviesSlice, {addToFavorite, removeFromFavorite} from './moviesSlice'
+import {authReducer} from './authSlice'
+import {pagesReducer} from './pagesSlice'
+import {moviesReducer} from './moviesSlice'
 import {moviesApi} from './moviesApi'
-import {storage} from '../utils/utils'
-
-const localStorageMiddleware = ({getState}) => next => action => {
-	next(action)
-	if (storeCurrentPage.match(action)) {
-		storage('pages', getState().pages)
-	}
-	if (addToFavorite.match(action) || removeFromFavorite.match(action)) {
-		const favorites = store.getState().movies.savedMovies
-		localStorage.setItem('favorites', JSON.stringify(favorites))
-	}
-}
+import {localStorageMiddleware} from './middlewares/localStorage'
+import {appReducer} from './appSlice'
 
 export const store = configureStore({
 	reducer: {
-		auth: authSlice,
-		pages: pagesSlice,
-		movies: moviesSlice,
+		app: appReducer,
+		auth: authReducer,
+		pages: pagesReducer,
+		movies: moviesReducer,
 		[moviesApi.reducerPath]: moviesApi.reducer
 	},
 	middleware: (getDefaultMiddleware) => {

@@ -33,13 +33,15 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    minHeight: '100vh'
   },
 }))
 
 export default function SideBar({children}) {
   const s = useStyles()
   const lists = useSelector(state => state.pages)
-  const favoritesCount = useSelector(state => state.movies.savedMovies).length
+  const favorites = useSelector(state => state.movies.favorites)
+  const favoritesCount = Object.keys(favorites).length
   const linkItems = [
     {
       text: 'Now playing',
