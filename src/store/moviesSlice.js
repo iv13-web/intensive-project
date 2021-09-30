@@ -9,8 +9,10 @@ const moviesSlice = createSlice({
 	initialState,
 	reducers: {
 		initFavorites: (state, {payload}) => {
-			if(!payload) return initialState
-			state.favorites = {...payload}
+			if (payload) {
+				state.favorites = {...payload}
+			}
+			return state
 		},
 		toggleFavorite: (state, {payload}) => {
 			state.favorites[payload.id]

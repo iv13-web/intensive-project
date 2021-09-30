@@ -1,5 +1,5 @@
 import {IMG_URL} from './moviesApi'
-import {numberWithSeparator} from '../utils/utils'
+import {numberWithSeparator} from '../utils/numberWithSeparator'
 
 export const transformGetMovies = response => {
 	const totalPages = response.total_pages
@@ -43,11 +43,11 @@ export const transformGetMovieImages = response => {
 }
 
 export const transformGetMovieTrailers = response => {
-	return response.results.map(item => item?.key)
+	return response.results.map(item => item.key)
 }
 
 export const transformGetActorsQuery = response => {
-	return response.cast.map(item => {
+	return response.cast.filter(item => {
 		return item.profile_path && {
 			image: IMG_URL + item.profile_path,
 			name: item.name,

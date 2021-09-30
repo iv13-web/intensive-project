@@ -1,5 +1,5 @@
 import {initPages, storeCurrentPage} from '../pagesSlice'
-import {storage} from '../../utils/utils'
+import {storage} from '../../utils/storage'
 import {initFavorites, toggleFavorite} from '../moviesSlice'
 import {init} from '../appSlice'
 

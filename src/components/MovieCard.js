@@ -66,7 +66,7 @@ export default function MovieCard({data}) {
         <CardActions className={classnames(s.actions, 'appear-item')}>
           <FavoriteButton
             onClick={() => dispatch(toggleFavorite(data))}
-            isSaved={favorites[data.id]}
+            checked={Boolean(favorites[data.id])}
           />
         </CardActions>
         {!isImgReady &&

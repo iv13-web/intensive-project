@@ -51,6 +51,8 @@ export default function TrailersTab({id}) {
 	const [isOpen, setIsOpen] = useState(false)
 	const [currentKey, setCurrentKey] = useState('')
 
+	console.log(data)
+
 	const playTrailerHandler = key => {
 		setCurrentKey(key)
 		setIsOpen(true)

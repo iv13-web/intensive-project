@@ -4,5 +4,5 @@ import Gallery from '../../../components/Gallery'
 export default function ImagesTab({id}) {
   const {data, isSuccess} = useGetMovieImagesQuery(id)
 
-  return isSuccess && <Gallery data={data}/>
+  return isSuccess && <Gallery imgUrlsArray={data}/>
 }

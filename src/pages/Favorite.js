@@ -6,18 +6,18 @@ import {ReactComponent as NoFavorites} from '../assets/no-favorites.svg'
 
 export default function Favorite() {
   const favorites = useSelector(state => state.movies.favorites)
-  const data = Object.values(favorites)
+  const favoritesArray = Object.values(favorites)
 
   return (
     <>
-      {!data.length &&
+      {!favoritesArray.length &&
         <PagePlaceholder
           image={<NoFavorites/>}
           text='No favorites yet'
         />
       }
       <CardContainer>
-        {data.map(movie => (
+        {favoritesArray.map(movie => (
           <MovieCard
             data={movie}
             key={movie.id}

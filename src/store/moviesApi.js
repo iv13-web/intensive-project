@@ -32,7 +32,7 @@ export const moviesApi = createApi({
 		getActors: build.query({
 			query: (id) => `${id}/credits?${API_KEY}&language=en-US`,
 			transformResponse: transformGetActorsQuery
-		}),
+		})
 	})
 })
 

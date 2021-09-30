@@ -32,9 +32,6 @@ const useStyles = makeStyles(theme => {
 			left: 0,
 			backgroundSize: 'cover',
 			transition: 'all .3s ease',
-			'&:hover': {
-
-			}
 		},
 		controls: {
 			transition: 'opacity .3s ease',
@@ -57,28 +54,27 @@ const useStyles = makeStyles(theme => {
 })
 
 
-export default function Gallery({data}) {
+export default function Gallery({imgUrlsArray}) {
 	const s = useStyles()
 	const [isLightboxVisible, setLightboxVisibility] = useState(false)
 	const [imageIndex, setImageIndex] = useState(0)
 
-	const handleImageOpen = e => {
+	const handleImageOpen = (e, id) => {
 		setLightboxVisibility(true)
-		const newIndex = data.findIndex((el) => el === e.target.id) || 0
+		const newIndex = imgUrlsArray.findIndex(el => el === id) || 0
 		setImageIndex(newIndex)
 	}
 
 	return (
 		<>
 			<div className={s.wrapper}>
-				{data.map((image, i) => {
+				{imgUrlsArray.map((url, i) => {
 					return (
 						<div key={i} className={s.item}>
-								<img className={s.image} src={image} alt=''/>
+								<img className={s.image} src={url} alt=''/>
 							<div
-								id={image}
 								className={classnames(s.controls, 'appear-item')}
-								onClick={handleImageOpen}
+								onClick={(e) => handleImageOpen(e, url)}
 							>
 								<ZoomInOutlinedIcon
 									fontSize='large'
@@ -93,15 +89,15 @@ export default function Gallery({data}) {
 			{isLightboxVisible &&
 				<Lightbox
 					reactModalStyle={{overlay: {zIndex: 2000}}}
-					mainSrc={data[imageIndex]}
-					nextSrc={data[(imageIndex + 1) % data.length]}
-					prevSrc={data[(imageIndex + data.length - 1) % data.length]}
+					mainSrc={imgUrlsArray[imageIndex]}
+					nextSrc={imgUrlsArray[(imageIndex + 1) % imgUrlsArray.length]}
+					prevSrc={imgUrlsArray[(imageIndex + imgUrlsArray.length - 1) % imgUrlsArray.length]}
 					onCloseRequest={() => setLightboxVisibility(false)}
 					onMovePrevRequest={() =>
-						setImageIndex((imageIndex + data.length - 1) % data.length)
+						setImageIndex((imageIndex + imgUrlsArray.length - 1) % imgUrlsArray.length)
 					}
 					onMoveNextRequest={() =>
-						setImageIndex((imageIndex + 1) % data.length)
+						setImageIndex((imageIndex + 1) % imgUrlsArray.length)
 					}
 				/>
 			}

@@ -12,10 +12,12 @@ const pagesSlice = createSlice({
 	initialState,
 	reducers: {
 		initPages: (state, {payload}) => {
-			if(!payload) return initialState
-			Object.keys(payload).forEach(key => {
-				state[key] = payload[key]
-			})
+			if (payload) {
+				return Object.keys(payload).forEach(key => {
+					state[key] = payload[key]
+				})
+			}
+			return state
 		},
 		storeCurrentPage: (state, {payload}) => {
 			state[payload.list] = payload.page

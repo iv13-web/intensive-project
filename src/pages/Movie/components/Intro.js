@@ -36,9 +36,9 @@ const ROW_TITLES = [
   'revenue',
 ]
 
-const createCellText = (point, separator) => (
+const createCellText = (title, separator) => (
   <Typography variant='subtitle1' color='textSecondary'>
-    {separator ? point + separator : point}
+    {separator ? title + separator : title}
   </Typography>
 )
 

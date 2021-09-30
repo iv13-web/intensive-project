@@ -3,8 +3,6 @@ import {makeStyles} from '@material-ui/core/styles'
 import {Button} from '@material-ui/core'
 import {Link as BrowserLink} from 'react-router-dom'
 import {useParams} from 'react-router-dom'
-import {useEffect} from 'react'
-import {disableScroll} from '../utils/utils'
 
 const useStyles = makeStyles(theme => {
 	return {
@@ -37,23 +35,24 @@ export default function TabsContainer({children}) {
 	return (
 		<>
 			<ul className={s.list}>
-				{children.map((item, index) => (
-					<BrowserLink
-						key={index}
-						to={`/movie/${id}/${item.props.title.toLowerCase()}`}
-					>
-						<Button
-							className={classnames(s.item, item.props.title.toLowerCase() === tab && s.active)}
-							disableRipple
+				{children.map((item, index) => {
+					const tabTitle = item.props.title.toLowerCase()
+					return (
+						<BrowserLink
+							key={index}
+							to={`/movie/${id}/${tabTitle}`}
 						>
-							{item.props.title}
-						</Button>
-					</BrowserLink>
-				))}
+							<Button
+								className={classnames(s.item, {[s.active]: tabTitle === tab})}
+								disableRipple
+							>
+								{item.props.title}
+							</Button>
+						</BrowserLink>
+					)
+				})}
 			</ul>
-			<>
-				{children[selectedTab]}
-			</>
+			{children[selectedTab]}
 		</>
 	)
 }
