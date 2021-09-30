@@ -10,6 +10,7 @@ import ConfirmationNumberOutlinedIcon from '@material-ui/icons/ConfirmationNumbe
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined'
 import NavLinks from '../components/NavLinks'
 import {useSelector} from 'react-redux'
+import {Badge} from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,12 +33,15 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    minHeight: '100vh'
   },
 }))
 
 export default function SideBar({children}) {
   const s = useStyles()
   const lists = useSelector(state => state.pages)
+  const favorites = useSelector(state => state.movies.favorites)
+  const favoritesCount = Object.keys(favorites).length
   const linkItems = [
     {
       text: 'Now playing',
@@ -61,7 +65,9 @@ export default function SideBar({children}) {
     },
     {
       text: 'Favorite',
-      icon: <FavoriteBorderOutlinedIcon color='inherit'/>,
+      icon: <Badge badgeContent={favoritesCount} color="primary">
+              <FavoriteBorderOutlinedIcon color='inherit'/>
+            </Badge>,
       path: `/favorite`,
     }
   ]

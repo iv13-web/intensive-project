@@ -6,6 +6,8 @@ import Paginator from '../components/Paginatior'
 import {useDispatch} from 'react-redux'
 import {storeCurrentPage} from '../store/pagesSlice'
 import {useEffect} from 'react'
+import ScrollToTop from '../layout/ScrollToTop'
+import SkeletonCard from '../components/SkeletonCard'
 
 export default function Catalog() {
   const {list, page} = useParams()
@@ -20,9 +22,10 @@ export default function Catalog() {
   useEffect(() => {
     dispatch(storeCurrentPage({list, page}))
   }, [list, page])
-  
+
   return (
     <>
+      <ScrollToTop deps={[list, page]}/>
       <CardContainer>
         {isSuccess && moviesData.map(movie => (
           <MovieCard
@@ -32,11 +35,11 @@ export default function Catalog() {
           />
         ))}
       </CardContainer>
-      <Paginator
+      {isSuccess && <Paginator
         count={pagesCount}
         page={Number(page)}
         handlePageChange={handlePageChange}
-      />
+      />}
     </>
   )
 }

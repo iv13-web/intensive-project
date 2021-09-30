@@ -1,20 +1,17 @@
 import {configureStore} from '@reduxjs/toolkit'
-import authSlice from './authSlice'
+import {authReducer} from './authSlice'
+import {pagesReducer} from './pagesSlice'
+import {moviesReducer} from './moviesSlice'
 import {moviesApi} from './moviesApi'
-import pagesSlice, {storeCurrentPage} from './pagesSlice'
-import {storage} from '../utils/utils'
-
-const localStorageMiddleware = ({getState}) => next => action => {
-	next(action)
-	if (storeCurrentPage.match(action)) {
-		storage('pages', getState().pages)
-	}
-}
+import {localStorageMiddleware} from './middlewares/localStorage'
+import {appReducer} from './appSlice'
 
 export const store = configureStore({
 	reducer: {
-		auth: authSlice,
-		pages: pagesSlice,
+		app: appReducer,
+		auth: authReducer,
+		pages: pagesReducer,
+		movies: moviesReducer,
 		[moviesApi.reducerPath]: moviesApi.reducer
 	},
 	middleware: (getDefaultMiddleware) => {

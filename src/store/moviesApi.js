@@ -1,22 +1,45 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import {transformGetMovies} from './transformHelpers'
-const apiKey = 'api_key=9adffccf59c02bd0dc729c1d92ccd822'
+import {
+	transformGetActorsQuery,
+	transformGetMovieImages,
+	transformGetMovies,
+	transformGetMoviesById,
+	transformGetMovieTrailers
+} from './transformHelpers'
+const API_KEY = 'api_key=9adffccf59c02bd0dc729c1d92ccd822'
 export const IMG_URL = 'https://image.tmdb.org/t/p/w500'
+
 export const moviesApi = createApi({
 	reducerPath: 'moviesApi',
 	baseQuery: fetchBaseQuery({baseUrl: 'https://api.themoviedb.org/3/movie/'}),
 	endpoints: (build) => ({
 		getMovies: build.query({
-			query: ({list, page}) => `${list}?${apiKey}&language=en&page=${page}`,
+			query: ({list, page}) => `${list}?${API_KEY}&language=en-US&page=${page}`,
 			transformResponse: transformGetMovies
 		}),
 		getMovieById: build.query({
-			// query: (id) => `${list}?${apiKey}&language=en&page=${page}`,
+			query: (id) => `${id}?${API_KEY}&language=en-US`,
+			transformResponse: transformGetMoviesById
 		}),
+		getMovieImages: build.query({
+			query: (id) => `${id}/images?${API_KEY}&language=en`,
+			transformResponse: transformGetMovieImages
+		}),
+		getMovieTrailers: build.query({
+			query: (id) => `${id}/videos?${API_KEY}&language=en`,
+			transformResponse: transformGetMovieTrailers
+		}),
+		getActors: build.query({
+			query: (id) => `${id}/credits?${API_KEY}&language=en-US`,
+			transformResponse: transformGetActorsQuery
+		})
 	})
 })
 
 export const {
 	useGetMoviesQuery,
 	useGetMovieByIdQuery,
+	useGetMovieImagesQuery,
+	useGetMovieTrailersQuery,
+	useGetActorsQuery
 } = moviesApi

@@ -1,26 +1,29 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {storage} from '../utils/utils'
 
-const DEFAULT_STATE = {
+const initialState = {
 	'now_playing': 1,
 	'popular': 1,
 	'top_rated': 1,
 	'upcoming': 1
 }
 
-const initialState = storage('pages')
-	? storage('pages', null, DEFAULT_STATE)
-	: DEFAULT_STATE
-
 const pagesSlice = createSlice({
 	name: 'pages',
 	initialState,
 	reducers: {
+		initPages: (state, {payload}) => {
+			if (payload) {
+				return Object.keys(payload).forEach(key => {
+					state[key] = payload[key]
+				})
+			}
+			return state
+		},
 		storeCurrentPage: (state, {payload}) => {
 			state[payload.list] = payload.page
 		},
 	}
 })
 
-export default pagesSlice.reducer
-export const {storeCurrentPage} = pagesSlice.actions
+export const pagesReducer = pagesSlice.reducer
+export const {storeCurrentPage, initPages} = pagesSlice.actions
