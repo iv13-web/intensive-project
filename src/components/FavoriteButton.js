@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => {
 	}
 })
 
-export default function FavoriteButton({checked, onClick}) {
+export default function FavoriteButton({checked, isLoggedIn, onClick}) {
 	const s = useStyles()
 
   return (
@@ -24,7 +24,7 @@ export default function FavoriteButton({checked, onClick}) {
 			size='small'
 			onClick={onClick}
 		>
-			{checked
+			{checked && isLoggedIn
 				? <FavoriteIcon color='secondary'/>
 				: <FavoriteBorderIcon className={s.favoriteBtn}/>
 			}

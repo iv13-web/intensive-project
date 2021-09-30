@@ -5,6 +5,7 @@ import TabsContainer from '../../components/TabsContainer'
 import ImagesTab from './components/ImagesTab'
 import TrailersTab from './components/TrailersTab'
 import ActorsTab from './components/ActorsTab'
+import ScrollToTop from '../../layout/ScrollToTop'
 
 export default function Movie() {
   const {id} = useParams()
@@ -12,6 +13,7 @@ export default function Movie() {
 
   return (
     <>
+      <ScrollToTop deps={id}/>
       {isSuccess &&
         <Intro data={data}/>
       }

@@ -33,15 +33,16 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    minHeight: '100vh'
   },
 }))
 
 export default function SideBar({children}) {
   const s = useStyles()
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   const lists = useSelector(state => state.pages)
   const favorites = useSelector(state => state.movies.favorites)
   const favoritesCount = Object.keys(favorites).length
+
   const linkItems = [
     {
       text: 'Now playing',
@@ -62,15 +63,16 @@ export default function SideBar({children}) {
       text: 'Upcoming',
       icon: <ConfirmationNumberOutlinedIcon color='inherit'/>,
       path: `/upcoming/${lists['upcoming']}`,
-    },
-    {
-      text: 'Favorite',
-      icon: <Badge badgeContent={favoritesCount} color="primary">
-              <FavoriteBorderOutlinedIcon color='inherit'/>
-            </Badge>,
-      path: `/favorite`,
     }
   ]
+
+  isLoggedIn && linkItems.push({
+    text: 'Favorite',
+    icon: <Badge badgeContent={favoritesCount} color="primary">
+      <FavoriteBorderOutlinedIcon color='inherit'/>
+    </Badge>,
+    path: `/favorite`,
+  })
 
   return (
     <div className={s.root} >

@@ -51,8 +51,6 @@ export default function TrailersTab({id}) {
 	const [isOpen, setIsOpen] = useState(false)
 	const [currentKey, setCurrentKey] = useState('')
 
-	console.log(data)
-
 	const playTrailerHandler = key => {
 		setCurrentKey(key)
 		setIsOpen(true)
@@ -60,11 +58,11 @@ export default function TrailersTab({id}) {
 
 	return (
 		<div className={s.wrapper}>
-			{isSuccess && data.map(trailer => (
-				<div key={trailer} className={s.item}>
+			{isSuccess && data.map(item => (
+				<div key={item.youtubeVideId} className={s.item}>
 					<img
-						onClick={() => playTrailerHandler(trailer)}
-						src={`https://img.youtube.com/vi/${trailer}/sddefault.jpg`}
+						onClick={() => playTrailerHandler(item.youtubeVideId)}
+						src={`https://img.youtube.com/vi/${item.youtubeVideId}/sddefault.jpg`}
 						alt=""
 					/>
 					<div className={classnames(s.btn, 'appear-item')}>

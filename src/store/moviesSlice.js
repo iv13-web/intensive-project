@@ -14,7 +14,7 @@ const moviesSlice = createSlice({
 			}
 			return state
 		},
-		toggleFavorite: (state, {payload}) => {
+		toggleFavorites: (state, {payload}) => {
 			state.favorites[payload.id]
 				? delete state.favorites[payload.id]
 				: state.favorites[payload.id] = payload
@@ -23,4 +23,4 @@ const moviesSlice = createSlice({
 })
 
 export const moviesReducer = moviesSlice.reducer
-export const {toggleFavorite, initFavorites} = moviesSlice.actions
+export const {toggleFavorites, initFavorites} = moviesSlice.actions

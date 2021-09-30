@@ -9,7 +9,8 @@ import noPoster from '../assets/poster-placeholder.png'
 import classnames from 'classnames'
 import FavoriteButton from './FavoriteButton'
 import {useDispatch, useSelector} from 'react-redux'
-import {toggleFavorite} from '../store/moviesSlice'
+import {toggleFavorites} from '../store/moviesSlice'
+import {setAuthModalOpened} from '../store/authSlice'
 
 const useStyles = makeStyles(theme => {
   return {
@@ -54,18 +55,22 @@ const useStyles = makeStyles(theme => {
 
 export default function MovieCard({data}) {
   const s = useStyles()
-  const dispatch = useDispatch()
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   const favorites = useSelector(state => state.movies.favorites)
+  const dispatch = useDispatch()
   const {poster, title, id} = data
   const [isImgReady, setIsImgReady] = useState(false)
   const onImgLoad = e => setIsImgReady(true)
+  const toggleFavorite = () => dispatch(toggleFavorites(data))
+  const handleAuthModalOpen = () => dispatch(setAuthModalOpened(true))
 
   return (
     <Grid item xs={6} md={4} lg={3} xl={2} className={s.root}>
       <div className={s.card}>
         <CardActions className={classnames(s.actions, 'appear-item')}>
           <FavoriteButton
-            onClick={() => dispatch(toggleFavorite(data))}
+            isLoggedIn={isLoggedIn}
+            onClick={isLoggedIn ? toggleFavorite : handleAuthModalOpen}
             checked={Boolean(favorites[data.id])}
           />
         </CardActions>

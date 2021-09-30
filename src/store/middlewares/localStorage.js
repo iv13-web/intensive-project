@@ -1,6 +1,6 @@
 import {initPages, storeCurrentPage} from '../pagesSlice'
 import {storage} from '../../utils/storage'
-import {initFavorites, toggleFavorite} from '../moviesSlice'
+import {initFavorites, toggleFavorites} from '../moviesSlice'
 import {init} from '../appSlice'
 
 export const localStorageMiddleware = store => next => action => {
@@ -8,9 +8,9 @@ export const localStorageMiddleware = store => next => action => {
 	if (storeCurrentPage.match(action)) {
 		storage('pages', store.getState().pages)
 	}
-	if (toggleFavorite.match(action)) {
+	if (toggleFavorites.match(action)) {
 		const favorites = store.getState().movies.favorites
-		localStorage.setItem('favorites', JSON.stringify(favorites))
+		storage('favorites', favorites)
 	}
 	if (init.match(action)) {
 		const storedPages = storage('pages')

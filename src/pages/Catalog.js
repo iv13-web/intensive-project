@@ -7,7 +7,7 @@ import {useDispatch} from 'react-redux'
 import {storeCurrentPage} from '../store/pagesSlice'
 import {useEffect} from 'react'
 import ScrollToTop from '../layout/ScrollToTop'
-import SkeletonCard from '../components/SkeletonCard'
+import AuthModal from '../components/AuthModal'
 
 export default function Catalog() {
   const {list, page} = useParams()
@@ -40,6 +40,7 @@ export default function Catalog() {
         page={Number(page)}
         handlePageChange={handlePageChange}
       />}
+      <AuthModal/>
     </>
   )
 }
