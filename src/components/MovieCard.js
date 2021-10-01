@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => {
 
 export default function MovieCard({data}) {
   const s = useStyles()
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+  const isSignedIn = useSelector(state => state.auth.isSignedIn)
   const favorites = useSelector(state => state.movies.favorites)
   const dispatch = useDispatch()
   const {poster, title, id} = data
@@ -69,8 +69,8 @@ export default function MovieCard({data}) {
       <div className={s.card}>
         <CardActions className={classnames(s.actions, 'appear-item')}>
           <FavoriteButton
-            isLoggedIn={isLoggedIn}
-            onClick={isLoggedIn ? toggleFavorite : handleAuthModalOpen}
+            isSignedIn={isSignedIn}
+            onClick={isSignedIn ? toggleFavorite : handleAuthModalOpen}
             checked={Boolean(favorites[data.id])}
           />
         </CardActions>

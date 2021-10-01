@@ -7,12 +7,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import {Link as RouterLink, useHistory} from 'react-router-dom'
+import {Link as BrowserLink, useHistory} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
-import {login} from '../store/authSlice'
+import {signin} from '../store/authSlice'
 import {useFormik} from 'formik'
 import * as yup from 'yup'
-import React from 'react'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -41,14 +40,18 @@ const validationSchema = yup.object({
     .required('Email is required'),
   password: yup
     .string('Enter your password')
+    .min(4, 'Password is too short - should be 4 chars minimum')
     .required('Password is required'),
 })
 
+const WRONG_PASSWORD_TEXT = 'Incorrect password, please, check again'
+const WRONG_EMAIL_TEXT = 'No user with such email in db, create an account'
+
 export default function SignIn() {
   const s = useStyles()
+  const users = useSelector(state => state.auth.users)
   const history = useHistory()
   const dispatch = useDispatch()
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
 
   const formik = useFormik({
     initialValues: {
@@ -57,9 +60,15 @@ export default function SignIn() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      dispatch(login())
-      history.goBack()
-    },
+      dispatch(signin(values))
+      if (!users?.[values.email]) {
+        return formik.setFieldError('email', WRONG_EMAIL_TEXT)
+      }
+      if(users?.[values.email]?.password !== values.password) {
+        return formik.setFieldError('password', WRONG_PASSWORD_TEXT)
+      }
+      history.push('/')
+    }
   })
 
   return (
@@ -85,7 +94,6 @@ export default function SignIn() {
             autoFocus
             value={formik.values.email}
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
@@ -101,7 +109,6 @@ export default function SignIn() {
             autoComplete="current-password"
             value={formik.values.password}
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
           />
@@ -118,7 +125,7 @@ export default function SignIn() {
         <Grid container style={{justifyContent: 'end'}}>
           <Grid item>
             <Link
-              component={RouterLink}
+              component={BrowserLink}
               to='/signup'
               variant="body2"
               onMouseDown={() => history.push('/signup')}

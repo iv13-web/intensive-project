@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SideBar({children}) {
   const s = useStyles()
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+  const isSignedIn = useSelector(state => state.auth.isSignedIn)
   const lists = useSelector(state => state.pages)
   const favorites = useSelector(state => state.movies.favorites)
   const favoritesCount = Object.keys(favorites).length
@@ -66,7 +66,7 @@ export default function SideBar({children}) {
     }
   ]
 
-  isLoggedIn && linkItems.push({
+  isSignedIn && linkItems.push({
     text: 'Favorite',
     icon: <Badge badgeContent={favoritesCount} color="primary">
       <FavoriteBorderOutlinedIcon color='inherit'/>

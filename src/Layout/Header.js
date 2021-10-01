@@ -11,7 +11,7 @@ import RootLogo from '../components/RootLogo'
 import {useDispatch, useSelector} from 'react-redux'
 import {Button} from '@material-ui/core'
 import {Link as BrowserLink} from 'react-router-dom'
-import {logout} from '../store/authSlice'
+import {signout} from '../store/authSlice'
 
 const useStyles = makeStyles(theme => ({
 	grow: {
@@ -30,14 +30,17 @@ const useStyles = makeStyles(theme => ({
 export default function Header({children}) {
 	const s = useStyles()
 	const dispatch = useDispatch()
-	const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+	const isSignedIn = useSelector(state => state.auth.isSignedIn)
 	const [anchorEl, setAnchorEl] = useState(null)
 	const isMenuOpen = Boolean(anchorEl)
 	const handleProfileMenuOpen = (e) => setAnchorEl(e.currentTarget)
 	const handleMenuClose = () => {
 		setAnchorEl(null)
-		dispatch(logout())
+		dispatch(signout())
 	}
+
+	console.log(isSignedIn)
+
 
 	return (
 		<div className={s.grow}>
@@ -45,7 +48,7 @@ export default function Header({children}) {
 				<Toolbar className={s.toolbar}>
 					<RootLogo/>
 					<SearchBar/>
-					{isLoggedIn
+					{isSignedIn
 						? <IconButton
 								edge="end"
 								aria-haspopup="true"
@@ -60,6 +63,7 @@ export default function Header({children}) {
 					}
 				</Toolbar>
 			</AppBar>
+
 			<Menu
 				anchorEl={anchorEl}
 				anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
