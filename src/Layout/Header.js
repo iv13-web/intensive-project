@@ -9,9 +9,10 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import SearchBar from '../components/SearchBar'
 import RootLogo from '../components/RootLogo'
 import {useDispatch, useSelector} from 'react-redux'
-import {Button} from '@material-ui/core'
+import {Button, LinearProgress} from '@material-ui/core'
 import {Link as BrowserLink} from 'react-router-dom'
 import {signout} from '../store/authSlice'
+import LazyLoadWrapper from '../components/LazyLoadWrapper'
 
 const useStyles = makeStyles(theme => ({
 	grow: {
@@ -24,6 +25,13 @@ const useStyles = makeStyles(theme => ({
 	toolbar: {
 		paddingLeft: 0,
 		position: 'relative',
+	},
+	loader: {
+		position: 'absolute',
+		bottom: 0,
+		left: 0,
+		right: 0,
+		height: 4
 	}
 }))
 
@@ -31,16 +39,18 @@ export default function Header({children}) {
 	const s = useStyles()
 	const dispatch = useDispatch()
 	const isSignedIn = useSelector(state => state.auth.isSignedIn)
+	const isSearchFetching = useSelector(state => state.search.isSearchFetching)
 	const [anchorEl, setAnchorEl] = useState(null)
 	const isMenuOpen = Boolean(anchorEl)
+
 	const handleProfileMenuOpen = (e) => setAnchorEl(e.currentTarget)
-	const handleMenuClose = () => {
+
+	const handleMenuClose = () => setAnchorEl(null)
+
+	const logout = () => {
 		setAnchorEl(null)
 		dispatch(signout())
 	}
-
-	console.log(isSignedIn)
-
 
 	return (
 		<div className={s.grow}>
@@ -61,9 +71,13 @@ export default function Header({children}) {
 								<Button color='inherit'>sign in</Button>
 							</BrowserLink>
 					}
+					{isSearchFetching &&
+						<LazyLoadWrapper delay={300}>
+							<LinearProgress color="secondary" className={s.loader}/>
+						</LazyLoadWrapper>
+					}
 				</Toolbar>
 			</AppBar>
-
 			<Menu
 				anchorEl={anchorEl}
 				anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -72,7 +86,7 @@ export default function Header({children}) {
 				open={isMenuOpen}
 				onClose={handleMenuClose}
 			>
-				<MenuItem className={s.exitBtn} onClick={handleMenuClose}>Logout</MenuItem>
+				<MenuItem className={s.exitBtn} onClick={logout}>Logout</MenuItem>
 			</Menu>
 			{children}
 		</div>

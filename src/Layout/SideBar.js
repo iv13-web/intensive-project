@@ -9,8 +9,9 @@ import EmojiEventsOutlinedIcon from '@material-ui/icons/EmojiEventsOutlined'
 import ConfirmationNumberOutlinedIcon from '@material-ui/icons/ConfirmationNumberOutlined'
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined'
 import NavLinks from '../components/NavLinks'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {Badge} from '@material-ui/core'
+import {setInputQuery} from '../store/searchSlice'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh'
   },
 }))
 
@@ -42,6 +46,7 @@ export default function SideBar({children}) {
   const lists = useSelector(state => state.pages)
   const favorites = useSelector(state => state.movies.favorites)
   const favoritesCount = Object.keys(favorites).length
+  const dispatch = useDispatch()
 
   const linkItems = [
     {
@@ -81,6 +86,7 @@ export default function SideBar({children}) {
         variant="permanent"
         classes={{paper: s.drawerPaper}}
         anchor="left"
+        onClick={() => dispatch(setInputQuery(''))}
       >
         <NavLinks linkItems={linkItems}/>
         <Divider/>

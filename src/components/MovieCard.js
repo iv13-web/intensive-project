@@ -11,6 +11,8 @@ import FavoriteButton from './FavoriteButton'
 import {useDispatch, useSelector} from 'react-redux'
 import {toggleFavorites} from '../store/moviesSlice'
 import {setAuthModalOpened} from '../store/authSlice'
+import RenderSmoothImage from 'render-smooth-image-react'
+
 
 const useStyles = makeStyles(theme => {
   return {
@@ -23,7 +25,7 @@ const useStyles = makeStyles(theme => {
       }
     },
     wrapper: {
-      overflow: 'hidden'
+      overflow: 'hidden',
     },
     card: {
       position: 'relative'
@@ -60,6 +62,7 @@ export default function MovieCard({data}) {
   const dispatch = useDispatch()
   const {poster, title, id} = data
   const [isImgReady, setIsImgReady] = useState(false)
+
   const onImgLoad = e => setIsImgReady(true)
   const toggleFavorite = () => dispatch(toggleFavorites(data))
   const handleAuthModalOpen = () => dispatch(setAuthModalOpened(true))
@@ -67,35 +70,33 @@ export default function MovieCard({data}) {
   return (
     <Grid item xs={6} md={4} lg={3} xl={2} className={s.root}>
       <div className={s.card}>
-        <CardActions className={classnames(s.actions, 'appear-item')}>
-          <FavoriteButton
-            isSignedIn={isSignedIn}
-            onClick={isSignedIn ? toggleFavorite : handleAuthModalOpen}
-            checked={Boolean(favorites[data.id])}
-          />
-        </CardActions>
+        {isImgReady &&
+          <CardActions className={classnames(s.actions, 'appear-item')}>
+            <FavoriteButton
+              isSignedIn={isSignedIn}
+              onClick={isSignedIn ? toggleFavorite : handleAuthModalOpen}
+              checked={Boolean(favorites[data.id])}
+            />
+          </CardActions>
+        }
         {!isImgReady &&
-          <LazyLoadWrapper delay={500}>
+          <LazyLoadWrapper delay={1000}>
             <SkeletonCard/>
+            <Skeleton variant="text"/>
           </LazyLoadWrapper>
         }
         <BrowserLink to={`/movie/${id}/images`}>
           <div className={s.wrapper}>
-            <img
+            <RenderSmoothImage
+              src={poster || noPoster} alt={isImgReady ? title : ''}
               onLoad={onImgLoad}
-              className={s.image}
-              src={poster || noPoster}
-              alt={isImgReady ? title : ''}
             />
           </div>
         </BrowserLink>
-        {isImgReady
-          ? <Typography variant='subtitle2' noWrap>
-              {title}
-            </Typography>
-          : <LazyLoadWrapper delay={500}>
-              <Skeleton variant="text"/>
-            </LazyLoadWrapper>
+        {isImgReady &&
+          <Typography variant='subtitle2' noWrap>
+            {title}
+          </Typography>
         }
       </div>
     </Grid>

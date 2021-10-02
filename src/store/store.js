@@ -5,6 +5,7 @@ import {moviesReducer} from './moviesSlice'
 import {moviesApi} from './moviesApi'
 import {localStorageMiddleware} from './middlewares/localStorage'
 import {appReducer} from './appSlice'
+import {searchReducer} from './searchSlice'
 
 export const store = configureStore({
 	reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
 		auth: authReducer,
 		pages: pagesReducer,
 		movies: moviesReducer,
+		search: searchReducer,
 		[moviesApi.reducerPath]: moviesApi.reducer
 	},
 	middleware: (getDefaultMiddleware) => {
