@@ -4,6 +4,7 @@ import {pagesReducer} from './pagesSlice'
 import {moviesReducer} from './moviesSlice'
 import {moviesApi} from './moviesApi'
 import {localStorageMiddleware} from './middlewares/localStorage'
+import {authRequiredMiddleware} from './middlewares/authRequired'
 import {appReducer} from './appSlice'
 
 export const store = configureStore({
@@ -17,6 +18,7 @@ export const store = configureStore({
 	middleware: (getDefaultMiddleware) => {
 		return getDefaultMiddleware().concat(
 			moviesApi.middleware,
+			authRequiredMiddleware,
 			localStorageMiddleware
 		)
 	}

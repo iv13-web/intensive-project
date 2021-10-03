@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
-	favorites: {}
+	favorites: {},
 }
 
 const moviesSlice = createSlice({
@@ -14,13 +14,20 @@ const moviesSlice = createSlice({
 			}
 			return state
 		},
-		toggleFavorite: (state, {payload}) => {
-			state.favorites[payload.id]
-				? delete state.favorites[payload.id]
-				: state.favorites[payload.id] = payload
-		}
+		toggleFavorites: (state, {payload}) => {
+			if (payload.currentUser) {
+				if (state.favorites[payload.currentUser]?.[payload.data.id]) {
+					delete state.favorites[payload.currentUser][payload.data.id]
+				} else {
+					state.favorites[payload.currentUser] = {
+						...state.favorites[payload.currentUser],
+						[payload.data.id]: payload.data
+					}
+				}
+			}
+		},
 	},
 })
 
 export const moviesReducer = moviesSlice.reducer
-export const {toggleFavorite, initFavorites} = moviesSlice.actions
+export const {toggleFavorites, initFavorites} = moviesSlice.actions

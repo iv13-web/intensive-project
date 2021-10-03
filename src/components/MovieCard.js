@@ -9,7 +9,7 @@ import noPoster from '../assets/poster-placeholder.png'
 import classnames from 'classnames'
 import FavoriteButton from './FavoriteButton'
 import {useDispatch, useSelector} from 'react-redux'
-import {toggleFavorite} from '../store/moviesSlice'
+import {toggleFavorites} from '../store/moviesSlice'
 
 const useStyles = makeStyles(theme => {
   return {
@@ -54,19 +54,23 @@ const useStyles = makeStyles(theme => {
 
 export default function MovieCard({data}) {
   const s = useStyles()
+  const isSignedIn = useSelector(state => state.auth.isSignedIn)
+  const currentUser = useSelector(state => state.auth.currentUser)
+  const favorites = useSelector(state => state.movies.favorites[currentUser]?.[data.id])
   const dispatch = useDispatch()
-  const favorites = useSelector(state => state.movies.favorites)
   const {poster, title, id} = data
   const [isImgReady, setIsImgReady] = useState(false)
   const onImgLoad = e => setIsImgReady(true)
+  const toggleSaved = () => dispatch(toggleFavorites({currentUser, data}))
 
   return (
     <Grid item xs={6} md={4} lg={3} xl={2} className={s.root}>
       <div className={s.card}>
         <CardActions className={classnames(s.actions, 'appear-item')}>
           <FavoriteButton
-            onClick={() => dispatch(toggleFavorite(data))}
-            checked={Boolean(favorites[data.id])}
+            isSignedIn={isSignedIn}
+            onClick={toggleSaved}
+            checked={Boolean(favorites)}
           />
         </CardActions>
         {!isImgReady &&
