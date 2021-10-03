@@ -50,7 +50,7 @@ export default function SearchBar() {
   const s = useStyles()
   const history = useHistory()
   const [trigger, {data, isFetching}] = useLazySearchMovieByNameQuery()
-  const {search: isSearchResultsPage} = useLocation()
+  const {search: isOnSearchPage} = useLocation()
   const dispatch = useDispatch()
   const query = useSelector(state => state.search.query)
   const inputRef = useRef()
@@ -61,7 +61,7 @@ export default function SearchBar() {
   }
 
   const sendRequest = query => {
-    if (query.length > 2) {
+    if (query?.length) {
       trigger({query, page: 1})
     }
   }
@@ -80,11 +80,12 @@ export default function SearchBar() {
   }, [isFetching])
 
   const debouncedSendRequest = useCallback(debounce(sendRequest, 500), [])
-
-  const shouldShowSuggest = data && query.length > 2 && !isSearchResultsPage
+  const shouldShowSuggest = data && query?.length > 0
 
   useEffect(() => {
-    debouncedSendRequest(query)
+    if (!isOnSearchPage) {
+      debouncedSendRequest(query)
+    }
   }, [query])
 
   useUpdatedEffect(() => {
@@ -118,7 +119,10 @@ export default function SearchBar() {
         </Button>
       }
       {shouldShowSuggest &&
-        <Suggest moviesData={data} onClick={clearInput}/>
+        <Suggest
+          moviesData={data}
+          onClick={clearInput}
+        />
       }
     </>
   )

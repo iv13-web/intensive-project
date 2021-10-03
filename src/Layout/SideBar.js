@@ -8,10 +8,12 @@ import WhatshotOutlinedIcon from '@material-ui/icons/WhatshotOutlined'
 import EmojiEventsOutlinedIcon from '@material-ui/icons/EmojiEventsOutlined'
 import ConfirmationNumberOutlinedIcon from '@material-ui/icons/ConfirmationNumberOutlined'
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined'
+import FindInPageOutlinedIcon from '@material-ui/icons/FindInPageOutlined'
 import NavLinks from '../components/NavLinks'
 import {useDispatch, useSelector} from 'react-redux'
 import {Badge} from '@material-ui/core'
 import {setInputQuery} from '../store/searchSlice'
+import {useLocation} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +49,9 @@ export default function SideBar({children}) {
   const lists = useSelector(state => state.pages)
   const favorites = useSelector(state => state.movies.favorites[currentUser])
   const favoritesCount = favorites && Object.keys(favorites).length
+  const dispatch = useDispatch()
+  const {search: isOnSearchPage} = useLocation()
+  const {pathname} = useLocation()
 
 
   const linkItems = [
@@ -78,6 +83,12 @@ export default function SideBar({children}) {
       <FavoriteBorderOutlinedIcon color='inherit'/>
     </Badge>,
     path: `/favorite`,
+  })
+
+  isOnSearchPage && linkItems.push({
+    text: 'Search',
+    icon: <FindInPageOutlinedIcon color='inherit' style={{fontSize: 28}}/>,
+    path: pathname,
   })
 
   return (

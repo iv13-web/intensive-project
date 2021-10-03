@@ -18,7 +18,7 @@ const searchSlice = createSlice({
 		},
 		setSearchResults: (state, {payload}) => {
 			state.searchResults = payload
-		},
+		}
 	}
 })
 

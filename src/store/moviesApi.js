@@ -35,7 +35,7 @@ export const moviesApi = createApi({
 			transformResponse: transformGetActorsQuery
 		}),
 		searchMovieByName: build.query({
-			keepUnusedDataFor: 0,
+			// keepUnusedDataFor: 0,
 			query: ({query, page}) => `search/movie?${API_KEY}&language=en-US&query=${query}&page=${page}`,
 			transformResponse: transformGetMovies
 		})
