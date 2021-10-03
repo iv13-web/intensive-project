@@ -39,9 +39,6 @@ export default function Header({children}) {
 		dispatch(signout())
 	}
 
-	console.log(isSignedIn)
-
-
 	return (
 		<div className={s.grow}>
 			<AppBar position="sticky" elevation={0}>

@@ -59,10 +59,10 @@ export default function TrailersTab({id}) {
 	return (
 		<div className={s.wrapper}>
 			{isSuccess && data.map(item => (
-				<div key={item.youtubeVideId} className={s.item}>
+				<div key={item.youtubeVideoId} className={s.item}>
 					<img
-						onClick={() => playTrailerHandler(item.youtubeVideId)}
-						src={`https://img.youtube.com/vi/${item.youtubeVideId}/sddefault.jpg`}
+						onClick={() => playTrailerHandler(item.youtubeVideoId)}
+						src={`https://img.youtube.com/vi/${item.youtubeVideoId}/sddefault.jpg`}
 						alt=""
 					/>
 					<div className={classnames(s.btn, 'appear-item')}>
