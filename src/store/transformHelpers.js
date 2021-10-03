@@ -43,7 +43,7 @@ export const transformGetMovieImages = response => {
 }
 
 export const transformGetMovieTrailers = response => {
-	return response.results.map(item => ({youtubeVideId: item.key}))
+	return response.results.map(item => ({youtubeVideoId: item.key}))
 }
 
 export const transformGetActorsQuery = response => {

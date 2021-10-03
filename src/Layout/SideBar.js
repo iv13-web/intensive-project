@@ -43,10 +43,11 @@ const useStyles = makeStyles((theme) => ({
 export default function SideBar({children}) {
   const s = useStyles()
   const isSignedIn = useSelector(state => state.auth.isSignedIn)
+  const currentUser = useSelector(state => state.auth.currentUser)
   const lists = useSelector(state => state.pages)
-  const favorites = useSelector(state => state.movies.favorites)
-  const favoritesCount = Object.keys(favorites).length
-  const dispatch = useDispatch()
+  const favorites = useSelector(state => state.movies.favorites[currentUser])
+  const favoritesCount = favorites && Object.keys(favorites).length
+
 
   const linkItems = [
     {
