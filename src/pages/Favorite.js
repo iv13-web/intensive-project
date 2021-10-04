@@ -1,8 +1,8 @@
 import CardContainer from '../components/CardContainer'
-import MovieCard from '../components/MovieCard'
 import {useSelector} from 'react-redux'
 import PagePlaceholder from '../components/PagePlaceholder'
 import {ReactComponent as NoFavorites} from '../assets/no-favorites.svg'
+import Card from '../components/Card'
 
 export default function Favorite() {
   const currentUser = useSelector(state => state.auth.currentUser)
@@ -19,7 +19,8 @@ export default function Favorite() {
       }
       <CardContainer>
         {favoritesArray && favoritesArray.map(movie => (
-          <MovieCard
+          <Card
+            type='movie'
             data={movie}
             key={movie.id}
             id={movie.id}

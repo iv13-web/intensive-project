@@ -21,7 +21,7 @@ export const transformGetMoviesById = response => {
 	return {
 		poster: response.poster_path ? IMG_URL + response.poster_path : null,
 		genres: response.genres.map(genre => genre.name).join(', '),
-		release: response.release_date.split('-').reverse().join('.'),
+		release: response.release_date?.split('-').reverse().join('.'),
 		overview: response.overview,
 		title: response.title,
 		id: response.id,
@@ -33,6 +33,17 @@ export const transformGetMoviesById = response => {
 		budget: numberWithSeparator(response.budget) + '$',
 		revenue: numberWithSeparator(response.revenue) + '$',
 		companies: response.production_companies.map(company => company.name).join(', ')
+	}
+}
+
+export const transformGetActorById = response => {
+	return {
+		biography: response.biography,
+		birthday: response.birthday?.split('-').reverse().join('.'),
+		deathday: response.deathday,
+		name: response.name,
+		birthPlace: response.place_of_birth,
+		photo: IMG_URL + response.profile_path
 	}
 }
 
@@ -51,7 +62,7 @@ export const transformGetActorsQuery = response => {
 	return response.cast
 		.filter(item => item.profile_path)
 		.map(item => ({
-			image: IMG_URL + item.profile_path,
+			poster: IMG_URL + item.profile_path,
 			name: item.name,
 			character: item.character,
 			id: item.id

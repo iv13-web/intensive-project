@@ -1,19 +1,20 @@
-import {useGetActorsQuery} from '../../../store/moviesApi'
 import CardContainer from '../../../components/CardContainer'
 import Card from '../../../components/Card'
+import {useGetSimilarQuery} from '../../../store/moviesApi'
 import PagePlaceholder from '../../../components/PagePlaceholder'
 import TabLoader from './TabLoader'
 
-export default function ActorsTab({id, title}) {
-  const {data, isSuccess, isFetching} = useGetActorsQuery(id)
-  console.log(data)
+export default function SimilarTab({id, title}) {
+  const {data, isSuccess, isFetching} = useGetSimilarQuery(id)
+  const moviesData = data?.results
+
   return (
     <>
-      {isSuccess && data.length > 0 &&
+      {isSuccess && moviesData.length > 0 &&
         <CardContainer>
-          {data.map(movie => (
+          {moviesData.map(movie => (
             <Card
-              type='actor'
+              type='movie'
               data={movie}
               key={movie.id}
               id={movie.id}
@@ -21,7 +22,7 @@ export default function ActorsTab({id, title}) {
           ))}
         </CardContainer>
       }
-      {isSuccess && !data.length &&
+      {isSuccess && !moviesData.length &&
         <PagePlaceholder text={`No ${title} found`}/>
       }
       {isFetching && <TabLoader/>}

@@ -1,13 +1,13 @@
 import {useHistory, useParams} from 'react-router-dom/cjs/react-router-dom'
 import {useGetMoviesQuery} from '../store/moviesApi'
 import CardContainer from '../components/CardContainer'
-import MovieCard from '../components/MovieCard'
 import Paginator from '../components/Paginatior'
 import {useDispatch} from 'react-redux'
 import {storeCurrentPage} from '../store/pagesSlice'
 import {useEffect} from 'react'
 import ScrollToTop from '../layout/ScrollToTop'
 import AuthModal from '../components/AuthModal'
+import Card from '../components/Card'
 
 export default function Catalog() {
   const {list, page} = useParams()
@@ -25,10 +25,13 @@ export default function Catalog() {
 
   return (
     <>
-      <ScrollToTop deps={[list, page]}/>
+      {isSuccess &&
+        <ScrollToTop deps={[list, page]}/>
+      }
       <CardContainer>
         {isSuccess && moviesData.map(movie => (
-          <MovieCard
+          <Card
+            type='movie'
             data={movie}
             key={movie.id}
             id={movie.id}

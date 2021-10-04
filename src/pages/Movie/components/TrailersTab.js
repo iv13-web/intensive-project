@@ -4,6 +4,9 @@ import classnames from 'classnames'
 import {makeStyles} from '@material-ui/core/styles'
 import {useGetMovieTrailersQuery} from '../../../store/moviesApi'
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline'
+import PagePlaceholder from '../../../components/PagePlaceholder'
+import {CircularProgress} from '@material-ui/core'
+import TabLoader from './TabLoader'
 
 const useStyles = makeStyles(theme => {
 	return {
@@ -41,13 +44,19 @@ const useStyles = makeStyles(theme => {
 			justifyContent: 'center',
 			alignItems: 'center',
 			fontSize: 64
+		},
+		loaderWrapper: {
+			justifyContent: 'center',
+			display: 'flex',
+			alignItems: 'center',
+			height: '100%'
 		}
 	}
 })
 
-export default function TrailersTab({id}) {
+export default function TrailersTab({id, title}) {
 	const s = useStyles()
-	const {data, isSuccess} = useGetMovieTrailersQuery(id)
+	const {data, isSuccess, isFetching} = useGetMovieTrailersQuery(id)
 	const [isOpen, setIsOpen] = useState(false)
 	const [currentKey, setCurrentKey] = useState('')
 
@@ -57,31 +66,37 @@ export default function TrailersTab({id}) {
 	}
 
 	return (
-		<div className={s.wrapper}>
-			{isSuccess && data.map(item => (
-				<div key={item.youtubeVideoId} className={s.item}>
-					<img
-						onClick={() => playTrailerHandler(item.youtubeVideoId)}
-						src={`https://img.youtube.com/vi/${item.youtubeVideoId}/sddefault.jpg`}
-						alt=""
-					/>
-					<div className={classnames(s.btn, 'appear-item')}>
-						<PlayCircleOutlineIcon
-							color='secondary'
-							fontSize='inherit'
+		<>
+			<div className={s.wrapper}>
+				{isSuccess && data.map(item => (
+					<div key={item.youtubeVideoId} className={s.item}>
+						<img
+							onClick={() => playTrailerHandler(item.youtubeVideoId)}
+							src={`https://img.youtube.com/vi/${item.youtubeVideoId}/sddefault.jpg`}
+							alt=""
 						/>
+						<div className={classnames(s.btn, 'appear-item')}>
+							<PlayCircleOutlineIcon
+								color='secondary'
+								fontSize='inherit'
+							/>
+						</div>
 					</div>
-				</div>
-			))}
-			{isOpen &&
-				<ModalVideo
-					channel='youtube'
-					autoplay
-					isOpen={isOpen}
-					videoId={currentKey}
-					onClose={() => setIsOpen(false)}
-				/>
+				))}
+				{isOpen &&
+					<ModalVideo
+						channel='youtube'
+						autoplay
+						isOpen={isOpen}
+						videoId={currentKey}
+						onClose={() => setIsOpen(false)}
+					/>
+				}
+			</div>
+			{isSuccess && !data.length &&
+				<PagePlaceholder text={`No ${title} found`}/>
 			}
-		</div>
+			{isFetching && <TabLoader/>}
+		</>
 	)
 }
