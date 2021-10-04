@@ -2,11 +2,16 @@ import {alpha, makeStyles} from '@material-ui/core/styles'
 import InputBase from '@material-ui/core/InputBase'
 import SearchIcon from '@material-ui/icons/Search'
 import {debounce} from '../utils/debounce'
-import {useCallback, useEffect, useRef} from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 import {useHistory, useLocation} from 'react-router-dom'
 import {useLazySearchMovieByNameQuery} from '../store/moviesApi'
 import {useDispatch, useSelector} from 'react-redux'
-import {setInputQuery, setSearchFetching, setSearchResults} from '../store/searchSlice'
+import {
+  setInputQuery,
+  setSearchFetching,
+  setSearchResults,
+  setSuggestResults
+} from '../store/searchSlice'
 import useUpdatedEffect from '../hooks/useUpdatedEffect'
 import {Button} from '@material-ui/core'
 import Suggest from './Suggest'
@@ -15,10 +20,16 @@ import Suggest from './Suggest'
 const useStyles = makeStyles((theme) => ({
   search: {
     position: 'relative',
-    width: 'calc(100% - 64px)',
     borderRadius: theme.shape.borderRadius,
     '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
+      backgroundColor: (validInput) => {
+        return validInput
+          ? alpha(theme.palette.common.white, 0.25)
+          : theme.palette.secondary.light
+      },
+    },
+    backgroundColor: (validInput) => {
+      return validInput ? 'inherit' : theme.palette.secondary.light
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -37,7 +48,9 @@ const useStyles = makeStyles((theme) => ({
   },
   inputRoot: {
     width: '100%',
-    color: 'inherit',
+    color: (validInput) => {
+      return validInput ? 'inherit' : theme.palette.grey['50']
+    },
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -47,12 +60,14 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function SearchBar() {
-  const s = useStyles()
+  const query = useSelector(state => state.search.query)
+  const [validInput, setInputValidity] = useState()
+  const s = useStyles(validInput)
   const history = useHistory()
-  const [trigger, {data, isFetching}] = useLazySearchMovieByNameQuery()
+  const [trigger, {data, isSuccess, isFetching}] = useLazySearchMovieByNameQuery()
+  const storedSuggestResults = useSelector(state => state.search.suggestResults?.results)
   const {search: isOnSearchPage} = useLocation()
   const dispatch = useDispatch()
-  const query = useSelector(state => state.search.query)
   const inputRef = useRef()
 
   const clearInput = () => {
@@ -60,37 +75,49 @@ export default function SearchBar() {
     inputRef.current.blur()
   }
 
-  const sendRequest = query => {
-    if (query?.length) {
+  const sendRequest = debounce((query) => {
+    if (query.length) {
       trigger({query, page: 1})
     }
-  }
+  }, 500)
+
+  const debouncedSendRequest = useCallback(sendRequest, [])
 
   const handleSubmit = () => {
+    if (!query.length) {
+      return setInputValidity(false)
+    }
     clearInput()
+    dispatch(setSearchResults(data))
     history.push(`/search?q=${query}&page=1`)
   }
 
   const handleInputChange = e => {
+    setInputValidity(true)
     dispatch(setInputQuery(e.target.value))
   }
+
+  useUpdatedEffect(() => {
+    dispatch(setSearchFetching(!!query.length))
+  }, [query])
 
   useUpdatedEffect(() => {
     dispatch(setSearchFetching(isFetching))
   }, [isFetching])
 
-  const debouncedSendRequest = useCallback(debounce(sendRequest, 500), [])
-  const shouldShowSuggest = data && query?.length > 0
+  useUpdatedEffect(() => {
+    if (isSuccess) {
+      dispatch(setSuggestResults(data))
+      if (!isOnSearchPage) {
+        dispatch(setSearchResults(data))
+      }
+    }
+  }, [isSuccess, data])
 
   useEffect(() => {
-    if (!isOnSearchPage) {
-      debouncedSendRequest(query)
-    }
+    debouncedSendRequest(query)
+    !query.length && dispatch(setSuggestResults(null))
   }, [query])
-
-  useUpdatedEffect(() => {
-    dispatch(setSearchResults(data))
-  }, [dispatch, data])
 
   return (
     <>
@@ -104,6 +131,7 @@ export default function SearchBar() {
             classes={{root: s.inputRoot, input: s.inputInput}}
             inputProps={{ 'aria-label': 'search' }}
             onChange={handleInputChange}
+            onBlur={() => setInputValidity(true)}
             inputRef={inputRef}
             value={query}
           />
@@ -118,9 +146,9 @@ export default function SearchBar() {
           Clear
         </Button>
       }
-      {shouldShowSuggest &&
+      {storedSuggestResults &&
         <Suggest
-          moviesData={data}
+          moviesData={storedSuggestResults}
           onClick={clearInput}
         />
       }

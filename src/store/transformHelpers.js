@@ -3,6 +3,7 @@ import {numberWithSeparator} from '../utils/numberWithSeparator'
 
 export const transformGetMovies = response => {
 	const totalPages = response.total_pages
+	const totalResults = response.total_results
 	const updated = response.results.map(movie => ({
 		poster: movie.poster_path ? IMG_URL + movie.poster_path : null,
 		genres: movie.genre_ids,
@@ -10,10 +11,10 @@ export const transformGetMovies = response => {
 		title: movie.title,
 		id: movie.id,
 		rating: movie.vote_average,
-		votesCount: movie.vote_count
+		votesCount: movie.vote_count,
 	}))
 
-	return {totalPages, results: updated}
+	return {totalPages, results: updated, totalResults}
 }
 
 export const transformGetMoviesById = response => {

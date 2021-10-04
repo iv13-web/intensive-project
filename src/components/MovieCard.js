@@ -12,7 +12,6 @@ import {useDispatch, useSelector} from 'react-redux'
 import {toggleFavorites} from '../store/moviesSlice'
 import RenderSmoothImage from 'render-smooth-image-react'
 
-
 const useStyles = makeStyles(theme => {
   return {
     root: {

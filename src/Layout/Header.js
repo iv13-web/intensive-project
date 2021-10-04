@@ -72,9 +72,7 @@ export default function Header({children}) {
 							</BrowserLink>
 					}
 					{isSearchFetching &&
-						<LazyLoadWrapper delay={300}>
-							<LinearProgress color="secondary" className={s.loader}/>
-						</LazyLoadWrapper>
+						<LinearProgress color="secondary" className={s.loader}/>
 					}
 				</Toolbar>
 			</AppBar>

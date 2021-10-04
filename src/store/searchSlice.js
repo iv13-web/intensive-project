@@ -3,11 +3,12 @@ import {createSlice} from '@reduxjs/toolkit'
 const initialState = {
 	query: '',
 	isSearchFetching: false,
-	searchResults: null
+	searchResults: null,
+	suggestResults: null,
 }
 
 const searchSlice = createSlice({
-	name: 'auth',
+	name: 'search',
 	initialState,
 	reducers: {
 		setInputQuery: (state, {payload}) => {
@@ -18,9 +19,12 @@ const searchSlice = createSlice({
 		},
 		setSearchResults: (state, {payload}) => {
 			state.searchResults = payload
+		},
+		setSuggestResults: (state, {payload}) => {
+			state.suggestResults = payload
 		}
 	}
 })
 
 export const searchReducer =  searchSlice.reducer
-export const {setInputQuery, setSearchFetching, setSearchResults} = searchSlice.actions
+export const {setInputQuery, setSearchFetching, setSearchResults, setSuggestResults} = searchSlice.actions

@@ -1,7 +1,7 @@
 import {makeStyles} from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import {Link as BrowserLink} from 'react-router-dom'
-import {ListItem, ListItemText} from '@material-ui/core'
+import {ListItem, ListItemText, Typography} from '@material-ui/core'
 import noPoster from '../assets/poster-placeholder.png'
 import {headerHeight, sideBarWidth} from '../layout/constants'
 
@@ -30,11 +30,10 @@ const useStyles = makeStyles(theme =>{
 
 export default function Suggest({moviesData, onClick}) {
   const s = useStyles()
-
   return (
     <div className={s.container}>
       <List >
-        {moviesData.results.map(movie => (
+        {moviesData.length > 0 && moviesData.map(movie => (
           <BrowserLink
             key={movie.id}
             to={`/movie/${movie.id}/images`}
@@ -56,6 +55,13 @@ export default function Suggest({moviesData, onClick}) {
             </ListItem>
           </BrowserLink>
         ))}
+        {moviesData.length === 0 &&
+          <ListItem>
+            <Typography>
+              No results found
+            </Typography>
+          </ListItem>
+        }
       </List>
     </div>
   )

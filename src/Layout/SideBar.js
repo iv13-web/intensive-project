@@ -49,10 +49,10 @@ export default function SideBar({children}) {
   const lists = useSelector(state => state.pages)
   const favorites = useSelector(state => state.movies.favorites[currentUser])
   const favoritesCount = favorites && Object.keys(favorites).length
+  const searchResultsCount = useSelector(state => state.search.searchResults?.totalResults)
   const dispatch = useDispatch()
   const {search: isOnSearchPage} = useLocation()
   const {pathname} = useLocation()
-
 
   const linkItems = [
     {
@@ -80,14 +80,16 @@ export default function SideBar({children}) {
   isSignedIn && linkItems.push({
     text: 'Favorite',
     icon: <Badge badgeContent={favoritesCount} color="primary">
-      <FavoriteBorderOutlinedIcon color='inherit'/>
-    </Badge>,
+            <FavoriteBorderOutlinedIcon color='inherit'/>
+          </Badge>,
     path: `/favorite`,
   })
 
   isOnSearchPage && linkItems.push({
     text: 'Search',
-    icon: <FindInPageOutlinedIcon color='inherit' style={{fontSize: 28}}/>,
+    icon: <Badge badgeContent={searchResultsCount} max={999} color="primary">
+            <FindInPageOutlinedIcon color='inherit' style={{fontSize: 28}}/>
+          </Badge>,
     path: pathname,
   })
 
