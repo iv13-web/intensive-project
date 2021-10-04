@@ -3,6 +3,8 @@ import Gallery from '../../../components/Gallery'
 
 export default function ActorsTab({id}) {
   const {data, isSuccess} = useGetActorsQuery(id)
-
-  return isSuccess && <Gallery data={data}/>
+  console.log(data)
+  return (
+    null
+  )
 }

@@ -48,11 +48,12 @@ export const transformGetMovieTrailers = response => {
 }
 
 export const transformGetActorsQuery = response => {
-	return response.cast.filter(item => {
-		return item.profile_path && {
+	return response.cast
+		.filter(item => item.profile_path)
+		.map(item => ({
 			image: IMG_URL + item.profile_path,
 			name: item.name,
-			character: item.character
-		}
-	})
+			character: item.character,
+			id: item.id
+		}))
 }
