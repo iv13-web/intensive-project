@@ -8,9 +8,12 @@ import WhatshotOutlinedIcon from '@material-ui/icons/WhatshotOutlined'
 import EmojiEventsOutlinedIcon from '@material-ui/icons/EmojiEventsOutlined'
 import ConfirmationNumberOutlinedIcon from '@material-ui/icons/ConfirmationNumberOutlined'
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined'
+import FindInPageOutlinedIcon from '@material-ui/icons/FindInPageOutlined'
 import NavLinks from '../components/NavLinks'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {Badge} from '@material-ui/core'
+import {setInputQuery} from '../store/searchSlice'
+import {useLocation} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh'
   },
 }))
 
@@ -43,6 +49,10 @@ export default function SideBar({children}) {
   const lists = useSelector(state => state.pages)
   const favorites = useSelector(state => state.movies.favorites[currentUser])
   const favoritesCount = favorites && Object.keys(favorites).length
+  const searchResultsCount = useSelector(state => state.search.searchResults?.totalResults)
+  const dispatch = useDispatch()
+  const {search: isOnSearchPage} = useLocation()
+  const {pathname} = useLocation()
 
   const linkItems = [
     {
@@ -70,9 +80,17 @@ export default function SideBar({children}) {
   isSignedIn && linkItems.push({
     text: 'Favorite',
     icon: <Badge badgeContent={favoritesCount} color="primary">
-      <FavoriteBorderOutlinedIcon color='inherit'/>
-    </Badge>,
+            <FavoriteBorderOutlinedIcon color='inherit'/>
+          </Badge>,
     path: `/favorite`,
+  })
+
+  isOnSearchPage && linkItems.push({
+    text: 'Search',
+    icon: <Badge badgeContent={searchResultsCount} max={999} color="primary">
+            <FindInPageOutlinedIcon color='inherit' style={{fontSize: 28}}/>
+          </Badge>,
+    path: pathname,
   })
 
   return (
@@ -82,6 +100,7 @@ export default function SideBar({children}) {
         variant="permanent"
         classes={{paper: s.drawerPaper}}
         anchor="left"
+        onClick={() => dispatch(setInputQuery(''))}
       >
         <NavLinks linkItems={linkItems}/>
         <Divider/>

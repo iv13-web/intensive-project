@@ -35,11 +35,13 @@ export default function Catalog() {
           />
         ))}
       </CardContainer>
-      {isSuccess && <Paginator
-        count={pagesCount}
-        page={Number(page)}
-        handlePageChange={handlePageChange}
-      />}
+      {isSuccess &&
+        <Paginator
+          count={pagesCount}
+          page={Number(page)}
+          handlePageChange={handlePageChange}
+        />
+      }
       <AuthModal/>
     </>
   )

@@ -10,6 +10,7 @@ import classnames from 'classnames'
 import FavoriteButton from './FavoriteButton'
 import {useDispatch, useSelector} from 'react-redux'
 import {toggleFavorites} from '../store/moviesSlice'
+import RenderSmoothImage from 'render-smooth-image-react'
 
 const useStyles = makeStyles(theme => {
   return {
@@ -22,7 +23,7 @@ const useStyles = makeStyles(theme => {
       }
     },
     wrapper: {
-      overflow: 'hidden'
+      overflow: 'hidden',
     },
     card: {
       position: 'relative'
@@ -60,6 +61,7 @@ export default function MovieCard({data}) {
   const dispatch = useDispatch()
   const {poster, title, id} = data
   const [isImgReady, setIsImgReady] = useState(false)
+
   const onImgLoad = e => setIsImgReady(true)
   const toggleSaved = () => dispatch(toggleFavorites({currentUser, data}))
 
@@ -74,27 +76,23 @@ export default function MovieCard({data}) {
           />
         </CardActions>
         {!isImgReady &&
-          <LazyLoadWrapper delay={500}>
+          <LazyLoadWrapper delay={1000}>
             <SkeletonCard/>
+            <Skeleton variant="text"/>
           </LazyLoadWrapper>
         }
         <BrowserLink to={`/movie/${id}/images`}>
           <div className={s.wrapper}>
-            <img
+            <RenderSmoothImage
+              src={poster || noPoster} alt={isImgReady ? title : ''}
               onLoad={onImgLoad}
-              className={s.image}
-              src={poster || noPoster}
-              alt={isImgReady ? title : ''}
             />
           </div>
         </BrowserLink>
-        {isImgReady
-          ? <Typography variant='subtitle2' noWrap>
-              {title}
-            </Typography>
-          : <LazyLoadWrapper delay={500}>
-              <Skeleton variant="text"/>
-            </LazyLoadWrapper>
+        {isImgReady &&
+          <Typography variant='subtitle2' noWrap>
+            {title}
+          </Typography>
         }
       </div>
     </Grid>

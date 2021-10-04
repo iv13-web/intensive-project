@@ -18,7 +18,10 @@ export default function PagePlaceholder({image, text}) {
 
   return (
     <div className={s.wrapper}>
-      {image}
+      {typeof image === 'object'
+        ? image
+        : <img src={image} alt=""/>
+      }
       <Typography variant='h2' color='textSecondary'>
         {text}
       </Typography>

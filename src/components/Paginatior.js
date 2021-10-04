@@ -5,7 +5,9 @@ const useStyles = makeStyles({
   container: {
     margin: '30px 0',
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    flexGrow: 2,
+    alignItems: 'end'
   }
 })
 

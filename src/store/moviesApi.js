@@ -11,27 +11,32 @@ export const IMG_URL = 'https://image.tmdb.org/t/p/w500'
 
 export const moviesApi = createApi({
 	reducerPath: 'moviesApi',
-	baseQuery: fetchBaseQuery({baseUrl: 'https://api.themoviedb.org/3/movie/'}),
+	baseQuery: fetchBaseQuery({baseUrl: 'https://api.themoviedb.org/3/'}),
 	endpoints: (build) => ({
 		getMovies: build.query({
-			query: ({list, page}) => `${list}?${API_KEY}&language=en-US&page=${page}`,
-			transformResponse: transformGetMovies
+			query: ({list, page}) => `movie/${list}?${API_KEY}&language=en-US&page=${page}`,
+			transformResponse: transformGetMovies,
+
 		}),
 		getMovieById: build.query({
-			query: (id) => `${id}?${API_KEY}&language=en-US`,
+			query: (id) => `movie/${id}?${API_KEY}&language=en-US`,
 			transformResponse: transformGetMoviesById
 		}),
 		getMovieImages: build.query({
-			query: (id) => `${id}/images?${API_KEY}&language=en`,
+			query: (id) => `movie/${id}/images?${API_KEY}&language=en`,
 			transformResponse: transformGetMovieImages
 		}),
 		getMovieTrailers: build.query({
-			query: (id) => `${id}/videos?${API_KEY}&language=en`,
+			query: (id) => `movie/${id}/videos?${API_KEY}&language=en`,
 			transformResponse: transformGetMovieTrailers
 		}),
 		getActors: build.query({
-			query: (id) => `${id}/credits?${API_KEY}&language=en-US`,
+			query: (id) => `movie/${id}/credits?${API_KEY}&language=en-US`,
 			transformResponse: transformGetActorsQuery
+		}),
+		searchMovieByName: build.query({
+			query: ({query, page}) => `search/movie?${API_KEY}&language=en-US&query=${query}&page=${page}`,
+			transformResponse: transformGetMovies
 		})
 	})
 })
@@ -41,5 +46,6 @@ export const {
 	useGetMovieByIdQuery,
 	useGetMovieImagesQuery,
 	useGetMovieTrailersQuery,
-	useGetActorsQuery
+	useGetActorsQuery,
+	useLazySearchMovieByNameQuery
 } = moviesApi

@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
+import 'render-smooth-image-react/build/style.css'
 import './styles/index.sass'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
