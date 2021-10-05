@@ -10,6 +10,7 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import PrivateRoute from './components/PrivateRoute'
 import SearchResults from './pages/SearchResults'
+import ExtendedSearch from './pages/ExtendedSearch'
 
 export default function App() {
   const dispatch = useDispatch()
@@ -20,6 +21,7 @@ export default function App() {
       <Layout>
         <Switch>
           <Route exact path='/' component={Home}/>
+          <Route path='/s' component={ExtendedSearch}/>
           <Route path='/search' component={SearchResults}/>
           <PrivateRoute path='/favorite' component={Favorite}/>
           <Route path='/movie/:id/:tab/' component={Movie}/>

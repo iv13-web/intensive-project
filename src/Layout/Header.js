@@ -26,6 +26,9 @@ const useStyles = makeStyles(theme => ({
 		paddingLeft: 0,
 		position: 'relative',
 	},
+	authBtn: {
+		marginLeft: 'auto'
+	},
 	loader: {
 		position: 'absolute',
 		bottom: 0,
@@ -64,6 +67,7 @@ export default function Header({children}) {
 								aria-haspopup="true"
 								onClick={handleProfileMenuOpen}
 								color='inherit'
+								className={s.authBtn}
 							>
 								<AccountCircle />
 							</IconButton>
