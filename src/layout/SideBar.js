@@ -18,6 +18,7 @@ import {useLocation} from 'react-router-dom'
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+
   },
   appBar: {
     width: `calc(100% - ${sideBarWidth}px)`,
@@ -26,19 +27,20 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: sideBarWidth,
     flexShrink: 0,
+
   },
   drawerPaper: {
     width: sideBarWidth,
-    position: 'sticky',
     top: headerHeight,
     height: `calc(100vh - ${headerHeight}px)`,
+    position: 'fixed',
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100vh'
+    minHeight: `calc(100vh - ${headerHeight}px)`
   },
 }))
 
@@ -104,9 +106,6 @@ export default function SideBar({children}) {
       >
         <NavLinks linkItems={linkItems}/>
         <Divider/>
-        <List>
-          {/* ИСТОРИЯ ПОИСКА */}
-        </List>
       </Drawer>
       <main className={s.content}>
         {children}

@@ -32,6 +32,9 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  container: {
+    padding: '24px 24px 24px 0'
+  }
 }))
 
 const validationSchema = yup.object({
@@ -77,7 +80,7 @@ export default function SignUp() {
   })
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" className={s.container}>
       <div className={s.paper}>
         <Avatar className={s.avatar}>
           <LockOutlinedIcon />

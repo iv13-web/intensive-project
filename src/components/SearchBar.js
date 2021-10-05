@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 0,
     transition: 'all .3s ease',
     flexGrow: 1,
-    zIndex: 100
+    zIndex: 100,
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -73,11 +73,10 @@ const useStyles = makeStyles((theme) => ({
   extendedSearch: {
     padding: '4px 8px',
     borderRadius: 0,
-
   },
   extendedSearchIcon: {
     color: ({pathname}) => {
-      return pathname === '/s' ? theme.palette.secondary.main : 'inherit'
+      return pathname === '/s' ? theme.palette.secondary.main : theme.palette.grey['50']
     }
   },
   link: {
@@ -96,9 +95,10 @@ export default function SearchBar() {
   const dispatch = useDispatch()
   const inputRef = useRef()
 
-  const clearInput = () => {
+  const clearInput = (param = 'withBlur') => {
     dispatch(setInputQuery(''))
-    inputRef.current.blur()
+    param === 'withBlur' && inputRef.current.blur()
+    param === 'withFocus' && inputRef.current.focus()
   }
 
   const sendRequest = debounce((query) => {
@@ -111,7 +111,6 @@ export default function SearchBar() {
 
   const handleSubmit = () => {
     if (!query.length) {
-      console.log('dsgsfd')
       return setInputValidity(false)
     }
     clearInput()
@@ -163,17 +162,20 @@ export default function SearchBar() {
             value={query}
           />
         </form>
-        <BrowserLink to='/s' className={s.link}>
-          <IconButton disableRipple className={s.extendedSearch}>
-            <TuneIcon fontSize='small' className={s.extendedSearchIcon}/>
+          <IconButton
+            disableRipple
+            className={s.extendedSearch}
+            title='extended search'
+          >
+            <BrowserLink to='/s' className={s.link}>
+              <TuneIcon fontSize='small' className={s.extendedSearchIcon}/>
+            </BrowserLink>
           </IconButton>
-        </BrowserLink>
       </div>
       {query &&
         <Button
-          size='small'
           color='inherit'
-          onClick={clearInput}
+          onClick={()  => clearInput('withFocus')}
         >
           Clear
         </Button>
