@@ -12,7 +12,7 @@ import FindInPageOutlinedIcon from '@material-ui/icons/FindInPageOutlined'
 import NavLinks from '../components/NavLinks'
 import {useDispatch, useSelector} from 'react-redux'
 import {Badge} from '@material-ui/core'
-import {setInputQuery} from '../store/searchSlice'
+import {setInputQuery} from '../store/searchSlice/searchSlice'
 import {useLocation} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({

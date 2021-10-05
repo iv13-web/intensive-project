@@ -7,6 +7,8 @@ import {
 	transformGetMovieTrailers
 } from './transformHelpers'
 const API_KEY = 'api_key=9adffccf59c02bd0dc729c1d92ccd822'
+const BASE_FILTER_PARAMS = 'language=en-US&include_adult=false&include_video=false&page=1'
+const BASE_DISCOVER_URL = `discover/movie?${API_KEY}&${BASE_FILTER_PARAMS}`
 export const IMG_URL = 'https://image.tmdb.org/t/p/w500'
 
 export const moviesApi = createApi({
@@ -37,6 +39,15 @@ export const moviesApi = createApi({
 		searchMovieByName: build.query({
 			query: ({query, page}) => `search/movie?${API_KEY}&language=en-US&query=${query}&page=${page}`,
 			transformResponse: transformGetMovies
+		}),
+		discoverMovie: build.query({
+
+			query: ({year, genres}) => {
+				const _year = year && `&year=${year}`
+				const _genres = genres && `&with_genres=${genres}`
+				return `${BASE_DISCOVER_URL}${_year}${_genres}&with_watch_monetization_types=flatrate`
+			},
+			// transformResponse: transformGetMovies
 		})
 	})
 })
@@ -47,5 +58,6 @@ export const {
 	useGetMovieImagesQuery,
 	useGetMovieTrailersQuery,
 	useGetActorsQuery,
-	useLazySearchMovieByNameQuery
+	useLazySearchMovieByNameQuery,
+	useLazyDiscoverMovieQuery
 } = moviesApi

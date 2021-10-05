@@ -5,6 +5,8 @@ const initialState = {
 	isSearchFetching: false,
 	searchResults: null,
 	suggestResults: null,
+	selectedGenres: [],
+	filterQuery: {}
 }
 
 const searchSlice = createSlice({
@@ -22,9 +24,22 @@ const searchSlice = createSlice({
 		},
 		setSuggestResults: (state, {payload}) => {
 			state.suggestResults = payload
-		}
+		},
+		setGenres: (state, {payload}) => {
+			state.selectedGenres = payload
+		},
+		setFilterQuery: (state) => {
+			state.filterQuery.genres = state.genres.join(',')
+		},
 	}
 })
 
 export const searchReducer =  searchSlice.reducer
-export const {setInputQuery, setSearchFetching, setSearchResults, setSuggestResults} = searchSlice.actions
+export const {
+	setInputQuery,
+	setSearchFetching,
+	setSearchResults,
+	setSuggestResults,
+	setGenres,
+	setFilterQuery
+} = searchSlice.actions

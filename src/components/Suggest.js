@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme =>{
       left: sideBarWidth,
       right: 0,
       maxHeight: 400,
-      overflowY: 'scroll',
+      overflowY: 'auto',
     },
     image: {
       height: 80,

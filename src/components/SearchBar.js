@@ -12,7 +12,7 @@ import {
   setSearchFetching,
   setSearchResults,
   setSuggestResults
-} from '../store/searchSlice'
+} from '../store/searchSlice/searchSlice'
 import useUpdatedEffect from '../hooks/useUpdatedEffect'
 import {Button, IconButton} from '@material-ui/core'
 import TuneIcon from '@material-ui/icons/Tune'

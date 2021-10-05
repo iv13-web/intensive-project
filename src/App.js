@@ -10,7 +10,7 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import PrivateRoute from './components/PrivateRoute'
 import SearchResults from './pages/SearchResults'
-import ExtendedSearch from './pages/ExtendedSearch'
+import ExtendedSearch from './pages/ExtendedSearch/ExtendedSearch'
 
 export default function App() {
   const dispatch = useDispatch()
