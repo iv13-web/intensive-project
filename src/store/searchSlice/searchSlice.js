@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
+import {validateYear} from '../../utils/validators'
 
 const initialState = {
 	query: '',
@@ -6,7 +7,9 @@ const initialState = {
 	searchResults: null,
 	suggestResults: null,
 	selectedGenres: [],
+	enteredYear: '',
 	filterQuery: {},
+	isYearValid: true
 }
 
 const searchSlice = createSlice({
@@ -26,13 +29,26 @@ const searchSlice = createSlice({
 			state.suggestResults = payload
 		},
 		setGenres: (state, {payload}) => {
-			state.genres = payload
+			state.selectedGenres = payload
+		},
+		setYear: (state, {payload}) => {
+			state.enteredYear = payload
+		},
+		setYearValidity: (state, {payload}) => {
+			state.isYearValid = validateYear(payload, 1959)
+			if (payload === '') {
+				state.isYearValid = true
+			}
 		},
 		setFilterQuery: (state) => {
-			state.filterQuery.genres = state.genres?.length && state.genres.join(',')
+			state.filterQuery.genres = state.selectedGenres.join(',')
+			state.filterQuery.year = state.enteredYear
 		},
 		clearFilters: (state) => {
-			state.genres = []
+			state.selectedGenres = []
+			state.enteredYear = ''
+			state.filterQuery = {}
+			state.isYearValid = true
 		}
 	}
 })
@@ -46,5 +62,6 @@ export const {
 	setGenres,
 	setFilterQuery,
 	clearFilters,
-	searchBtnDisability
+	setYear,
+	setYearValidity
 } = searchSlice.actions

@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => {
 			overflow: 'hidden',
 			position: 'relative',
 			cursor: 'pointer',
+			aspectRatio: '4/3',
 			'& .appear-item': {
 				opacity: 0,
 			},

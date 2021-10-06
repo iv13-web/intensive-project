@@ -10,6 +10,8 @@ const useStyles = makeStyles({
   },
   loader: {
     position: "absolute",
+    aspectRatio: '2/3',
+
     top: 0,
     left: 0,
     width: "100%",

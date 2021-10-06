@@ -55,22 +55,14 @@ export const moviesApi = createApi({
 			},
 			transformResponse: transformGetMovies
 		}),
-		discoverMovie: build.query({
-			query: ({year, genres}) => {
-				const _year = year ? `&year=${year}` : ''
-				const _genres = genres ? `&with_genres=${genres}` : ''
-				return `${BASE_DISCOVER_URL}${_year}${_genres}&with_watch_monetization_types=flatrate`
-			},
-			transformResponse: transformGetMovies
-		}),
 		searchMovies: build.query({
 			query: ({query, page, year, genres}) => {
 				if (query) {
 					return `search/movie?${API_KEY}&language=en-US&query=${query}&page=${page}`
 				}
 				const _year = year ? `&year=${year}` : ''
-				const _genres = genres ? `&with_genres=${genres}` : ''
-				return `${BASE_DISCOVER_URL}${_year}${_genres}&page=${page}`
+				const _genres = genres.length ? `&with_genres=${genres}` : ''
+				return `${BASE_DISCOVER_URL}&page=${page}${_year}${_genres}&with_watch_monetization_types=flatrate`
 			},
 			transformResponse: transformGetMovies
 		}),
@@ -84,10 +76,8 @@ export const {
 	useGetMovieTrailersQuery,
 	useGetActorsQuery,
 	useLazySearchMovieByNameQuery,
-	useLazyDiscoverMovieQuery,
 	useGetActorByIdQuery,
 	useGetSimilarQuery,
 	useGetRecommendationsQuery,
-
 	useLazySearchMoviesQuery
 } = moviesApi

@@ -4,12 +4,12 @@ import {Link as BrowserLink} from 'react-router-dom'
 import {useState} from 'react'
 import Skeleton from '@material-ui/lab/Skeleton'
 import SkeletonCard from './SkeletonCard'
-import LazyLoadWrapper from './LazyLoadWrapper'
 import noPoster from '../assets/poster-placeholder.png'
 import classnames from 'classnames'
 import FavoriteButton from './FavoriteButton'
 import {useDispatch, useSelector} from 'react-redux'
 import {toggleFavorites} from '../store/moviesSlice'
+
 
 const useStyles = makeStyles(theme => {
 	return {
@@ -23,27 +23,19 @@ const useStyles = makeStyles(theme => {
 		},
 		wrapper: {
 			overflow: 'hidden',
-			minHeight: 300,
 			position: 'relative'
-
-
 		},
 		card: {
 			position: 'relative'
 		},
 		image: {
-			transition: 'transform .3s ease, opacity .6s ease',
+			transition: 'transform .3s ease, opacity 1s ease',
 			objectFit: 'cover',
 			width: '100%',
 			display: 'block',
-			aspectRatio: '2/3',
-			height: '100%',
 			'&:hover': {
 				transform: 'scale(1.03)'
 			}
-		},
-		title: {
-			minHeight: 22
 		},
 		actions: {
 			position: 'absolute',
@@ -71,7 +63,9 @@ export default function MovieCard({data}) {
 	const [isImgReady, setIsImgReady] = useState(false)
 
 	const onImgLoad = e => setIsImgReady(true)
-	const toggleSaved = () => dispatch(toggleFavorites({currentUser, data}))
+	const toggleSaved = () => {
+		dispatch(toggleFavorites({currentUser, data}))
+	}
 
 	return (
 		<Grid item xs={6} md={4} lg={3} xl={2} className={s.root}>
@@ -84,10 +78,10 @@ export default function MovieCard({data}) {
 					/>
 				</CardActions>
 				{!isImgReady &&
-					<LazyLoadWrapper delay={400}>
+					<>
 						<SkeletonCard/>
 						<Skeleton variant="text"/>
-					</LazyLoadWrapper>
+					</>
 				}
 				<BrowserLink to={`/movie/${id}/images`}>
 					<div className={s.wrapper}>
@@ -96,12 +90,12 @@ export default function MovieCard({data}) {
 							className={s.image}
 							alt=""
 							onLoad={onImgLoad}
-							// style={isImgReady ? {opacity: 1} : {opacity: 0}}
+							style={isImgReady ? {opacity: 1} : {opacity: 0}}
 						/>
 					</div>
 				</BrowserLink>
 				{isImgReady &&
-					<Typography variant='subtitle2' noWrap className={s.title}>
+					<Typography variant='subtitle2' noWrap>
 						{title}
 					</Typography>
 				}

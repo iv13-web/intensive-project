@@ -3,7 +3,6 @@ import LazyLoadWrapper from './LazyLoadWrapper'
 import SkeletonCard from './SkeletonCard'
 import Skeleton from '@material-ui/lab/Skeleton'
 import {Link as BrowserLink} from 'react-router-dom'
-import RenderSmoothImage from 'render-smooth-image-react'
 import noPoster from '../assets/poster-placeholder.png'
 import {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
@@ -58,9 +57,12 @@ export default function ActorCard({data}) {
         }
         <BrowserLink to={`/actor/${id}`}>
           <div className={s.wrapper}>
-            <RenderSmoothImage
-              src={poster || noPoster} alt={isImgReady ? name : ''}
+            <img
+              src={poster || noPoster}
+              className={s.image}
+              alt=""
               onLoad={onImgLoad}
+              style={isImgReady ? {opacity: 1} : {opacity: 0}}
             />
           </div>
         </BrowserLink>

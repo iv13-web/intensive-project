@@ -4,11 +4,10 @@ import Grid from "@material-ui/core/Grid"
 import Container from "@material-ui/core/Container"
 import GenresFilter from './components/GenresFilter'
 import {useDispatch, useSelector} from 'react-redux'
-import {clearFilters, setFilterQuery, setSearchResults} from '../../store/searchSlice/searchSlice'
-import {useLazyDiscoverMovieQuery} from '../../store/moviesApi'
-import {CircularProgress} from '@material-ui/core'
-import {useEffect} from 'react'
+import {clearFilters} from '../../store/searchSlice/searchSlice'
 import {useHistory} from 'react-router-dom/cjs/react-router-dom'
+import YearsFilter from './components/YearsFilter'
+import {toast} from 'react-toastify'
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -38,42 +37,42 @@ const useStyles = makeStyles(theme => ({
 export default function ExtendedSearch() {
   const s = useStyles()
   const dispatch = useDispatch()
-  const [trigger, {data, isSuccess, isFetching}] = useLazyDiscoverMovieQuery()
   const history = useHistory()
-  const {genres} = useSelector(state => state.search.filterQuery)
+  const {genres, year} = useSelector(state => state.search.filterQuery)
+  const isYearValid = useSelector(state => state.search.isYearValid)
+  const shouldDisableBtn = !genres && !year
 
   const handleSubmit = () => {
-    trigger({genres})
-    history.push(`/search?&genres=${genres}&page=1`)
+    if (genres || year) {
+      isYearValid
+        ? history.push(`/search?&genres=${genres}&year=${year}&page=1`)
+        : toast.error('Enter a valid year, please')
+    }
   }
-
-  useEffect(() => {
-    data && dispatch(setSearchResults(data))
-  }, [data])
 
   return (
     <Container component="main" maxWidth="xs" className={s.container}>
         <form className={s.form} noValidate onSubmit={handleSubmit}>
           <GenresFilter/>
-
+          <YearsFilter/>
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={s.submit}
-            disabled={isFetching}
-            onClick={() => dispatch(setFilterQuery())}
+            disabled={shouldDisableBtn}
           >
             search
-            {isFetching &&
-              <CircularProgress size={24} className={s.buttonProgress} />
-            }
           </Button>
         </form>
         <Grid container className={s.clear}>
           <Grid item>
-            <Button color='primary' onClick={() => dispatch(clearFilters())}>
+            <Button
+              disabled={shouldDisableBtn}
+              color='primary'
+              onClick={() => dispatch(clearFilters())}
+            >
               Clear filters
             </Button>
           </Grid>

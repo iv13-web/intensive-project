@@ -3,7 +3,7 @@ import {ToggleButton} from '@material-ui/lab'
 import SelectFilterWrapper from './selectFilterWrapper'
 import {makeStyles} from '@material-ui/core/styles'
 import {useDispatch, useSelector} from 'react-redux'
-import {setGenres} from '../../../store/searchSlice/searchSlice'
+import {setFilterQuery, setGenres} from '../../../store/searchSlice/searchSlice'
 
 const useStyles = makeStyles(theme => ({
   toggleBtn: {
@@ -15,10 +15,11 @@ const useStyles = makeStyles(theme => ({
 export default function GenresFilter() {
   const s = useStyles()
   const dispatch = useDispatch()
-  const genres = useSelector(state => state.search.genres)
-  
+  const genres = useSelector(state => state.search.selectedGenres)
+
   const handleGenresSelect = (event, newGenres) => {
     dispatch(setGenres(newGenres))
+    dispatch(setFilterQuery(genres))
   }
 
   return (

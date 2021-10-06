@@ -1,5 +1,6 @@
 import {Paper, Typography, withStyles} from '@material-ui/core'
 import {ToggleButtonGroup} from '@material-ui/lab'
+import {makeStyles} from '@material-ui/core/styles'
 
 const StyledToggleButtonGroup = withStyles(theme => ({
   root: {
@@ -19,10 +20,17 @@ const StyledToggleButtonGroup = withStyles(theme => ({
   }
 }))(ToggleButtonGroup)
 
+const useStyles = makeStyles(theme => ({
+  wrapper: {
+    marginBottom: 32
+  }
+}))
+
 export default function SelectFilterWrapper({children, onChange, value}) {
+  const s = useStyles()
 
   return (
-    <div>
+    <div className={s.wrapper}>
       <Typography variant='h6' color='primary' gutterBottom>
         Select genres
       </Typography>

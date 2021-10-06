@@ -6,6 +6,7 @@ const useStyles = makeStyles(theme => {
     mainWrapper: {
       display: 'flex',
       marginBottom: 80,
+      minHeight: 450
     },
     image: {
       height: 450,
