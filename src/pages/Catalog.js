@@ -24,27 +24,25 @@ export default function Catalog() {
   }, [list, page])
 
   return (
-    <>
-      {isSuccess &&
+    moviesData?.length > 0 &&
+      <>
         <ScrollToTop deps={[list, page]}/>
-      }
-      <CardContainer>
-        {isSuccess && moviesData.map(movie => (
-          <MovieCard
-            data={movie}
-            key={movie.id}
-            id={movie.id}
-          />
-        ))}
-      </CardContainer>
-      {isSuccess &&
+        <CardContainer>
+          {moviesData.map(movie => (
+            <MovieCard
+              data={movie}
+              key={movie.id}
+              id={movie.id}
+            />
+          ))}
+        </CardContainer>
         <Paginator
           count={pagesCount}
           page={Number(page)}
           handlePageChange={handlePageChange}
         />
-      }
-      <AuthModal/>
-    </>
+        <AuthModal/>
+      </>
+
   )
 }

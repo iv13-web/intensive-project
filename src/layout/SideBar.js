@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     display: 'flex',
     flexDirection: 'column',
-    minHeight: `calc(100vh - ${headerHeight}px)`
+    minHeight: `calc(100vh - ${headerHeight}px * 2 - 24px * 2)`
   },
 }))
 

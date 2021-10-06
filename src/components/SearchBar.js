@@ -162,15 +162,15 @@ export default function SearchBar() {
             value={query}
           />
         </form>
-          <IconButton
-            disableRipple
-            className={s.extendedSearch}
-            title='extended search'
-          >
-            <BrowserLink to='/s' className={s.link}>
-              <TuneIcon fontSize='small' className={s.extendedSearchIcon}/>
-            </BrowserLink>
-          </IconButton>
+          <BrowserLink to='/s' className={s.link}>
+            <IconButton
+              disableRipple
+              className={s.extendedSearch}
+              title='extended search'
+            >
+                <TuneIcon fontSize='small' className={s.extendedSearchIcon}/>
+            </IconButton>
+          </BrowserLink>
       </div>
       {query &&
         <Button

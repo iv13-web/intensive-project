@@ -16,8 +16,10 @@ export default function GenresFilter() {
   const s = useStyles()
   const dispatch = useDispatch()
   const genres = useSelector(state => state.search.genres)
-
-  const handleGenresSelect = (event, newGenres) => dispatch(setGenres(newGenres))
+  
+  const handleGenresSelect = (event, newGenres) => {
+    dispatch(setGenres(newGenres))
+  }
 
   return (
     <SelectFilterWrapper onChange={handleGenresSelect} value={genres}>
