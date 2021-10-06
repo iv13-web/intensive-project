@@ -1,5 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {
+	transformGetActorById,
 	transformGetActorsQuery,
 	transformGetMovieImages,
 	transformGetMovies,
@@ -22,6 +23,10 @@ export const moviesApi = createApi({
 			query: (id) => `movie/${id}?${API_KEY}&language=en-US`,
 			transformResponse: transformGetMoviesById
 		}),
+		getActorById: build.query({
+			query: (id) => `person/${id}?${API_KEY}&language=en-US`,
+			transformResponse: transformGetActorById
+		}),
 		getMovieImages: build.query({
 			query: (id) => `movie/${id}/images?${API_KEY}&language=en`,
 			transformResponse: transformGetMovieImages
@@ -33,6 +38,14 @@ export const moviesApi = createApi({
 		getActors: build.query({
 			query: (id) => `movie/${id}/credits?${API_KEY}&language=en-US`,
 			transformResponse: transformGetActorsQuery
+		}),
+		getSimilar: build.query({
+			query: (id) => `movie/${id}/similar?${API_KEY}&language=en-US`,
+			transformResponse: transformGetMovies
+		}),
+		getRecommendations: build.query({
+			query: (id) => `movie/${id}/recommendations?${API_KEY}&language=en-US`,
+			transformResponse: transformGetMovies
 		}),
 		searchMovieByName: build.query({
 			query: ({query, page}) => `search/movie?${API_KEY}&language=en-US&query=${query}&page=${page}`,
@@ -47,5 +60,8 @@ export const {
 	useGetMovieImagesQuery,
 	useGetMovieTrailersQuery,
 	useGetActorsQuery,
-	useLazySearchMovieByNameQuery
+	useLazySearchMovieByNameQuery,
+	useGetActorByIdQuery,
+	useGetSimilarQuery,
+	useGetRecommendationsQuery
 } = moviesApi

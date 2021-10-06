@@ -4,6 +4,8 @@ import classnames from 'classnames'
 import {makeStyles} from '@material-ui/core/styles'
 import {useGetMovieTrailersQuery} from '../../../store/moviesApi'
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline'
+import PagePlaceholder from '../../../components/PagePlaceholder'
+import TabLoader from './TabLoader'
 
 const useStyles = makeStyles(theme => {
 	return {
@@ -41,13 +43,19 @@ const useStyles = makeStyles(theme => {
 			justifyContent: 'center',
 			alignItems: 'center',
 			fontSize: 64
+		},
+		loaderWrapper: {
+			justifyContent: 'center',
+			display: 'flex',
+			alignItems: 'center',
+			height: '100%'
 		}
 	}
 })
 
-export default function TrailersTab({id}) {
+export default function TrailersTab({id, title}) {
 	const s = useStyles()
-	const {data, isSuccess} = useGetMovieTrailersQuery(id)
+	const {data, isSuccess, isFetching} = useGetMovieTrailersQuery(id)
 	const [isOpen, setIsOpen] = useState(false)
 	const [currentKey, setCurrentKey] = useState('')
 
@@ -56,32 +64,44 @@ export default function TrailersTab({id}) {
 		setIsOpen(true)
 	}
 
+	if (isFetching) {
+		return <TabLoader/>
+	}
+
+	if (isSuccess && !data.length) {
+		return <PagePlaceholder text={`No ${title} found`}/>
+	}
+
 	return (
-		<div className={s.wrapper}>
-			{isSuccess && data.map(item => (
-				<div key={item.youtubeVideoId} className={s.item}>
-					<img
-						onClick={() => playTrailerHandler(item.youtubeVideoId)}
-						src={`https://img.youtube.com/vi/${item.youtubeVideoId}/sddefault.jpg`}
-						alt=""
-					/>
-					<div className={classnames(s.btn, 'appear-item')}>
-						<PlayCircleOutlineIcon
-							color='secondary'
-							fontSize='inherit'
+		<>
+			{isSuccess &&
+				<div className={s.wrapper}>
+					{data.map(item => (
+						<div key={item.youtubeVideoId} className={s.item}>
+							<img
+								onClick={() => playTrailerHandler(item.youtubeVideoId)}
+								src={`https://img.youtube.com/vi/${item.youtubeVideoId}/sddefault.jpg`}
+								alt=""
+							/>
+							<div className={classnames(s.btn, 'appear-item')}>
+								<PlayCircleOutlineIcon
+									color='secondary'
+									fontSize='inherit'
+								/>
+							</div>
+						</div>
+					))}
+					{isOpen &&
+						<ModalVideo
+							channel='youtube'
+							autoplay
+							isOpen={isOpen}
+							videoId={currentKey}
+							onClose={() => setIsOpen(false)}
 						/>
-					</div>
+					}
 				</div>
-			))}
-			{isOpen &&
-				<ModalVideo
-					channel='youtube'
-					autoplay
-					isOpen={isOpen}
-					videoId={currentKey}
-					onClose={() => setIsOpen(false)}
-				/>
 			}
-		</div>
+		</>
 	)
 }
