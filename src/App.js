@@ -11,6 +11,7 @@ import SignUp from './pages/SignUp'
 import PrivateRoute from './components/PrivateRoute'
 import SearchResults from './pages/SearchResults'
 import ExtendedSearch from './pages/ExtendedSearch/ExtendedSearch'
+import Actor from './pages/Actor/Actor'
 
 export default function App() {
   const dispatch = useDispatch()
@@ -25,6 +26,7 @@ export default function App() {
           <Route path='/search' component={SearchResults}/>
           <PrivateRoute path='/favorite' component={Favorite}/>
           <Route path='/movie/:id/:tab/' component={Movie}/>
+          <Route path='/actor/:id' component={Actor}/>
           <Route path='/:list/:page' component={Catalog}/>
           <Route path='/signin' component={SignIn}/>
           <Route path='/signup' component={SignUp}/>

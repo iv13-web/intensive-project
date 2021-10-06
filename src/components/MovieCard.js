@@ -13,88 +13,88 @@ import {toggleFavorites} from '../store/moviesSlice'
 import RenderSmoothImage from 'render-smooth-image-react'
 
 const useStyles = makeStyles(theme => {
-  return {
-    root: {
-      '& .appear-item': {
-        opacity: 0,
-      },
-      '&:hover .appear-item': {
-        opacity: 1
-      }
-    },
-    wrapper: {
-      overflow: 'hidden',
-    },
-    card: {
-      position: 'relative'
-    },
-    image: {
-      transition: 'transform .3s ease',
-      objectFit: 'cover',
-      width: '100%',
-      display: 'block',
-      '&:hover': {
-        transform: 'scale(1.05)'
-      }
-    },
-    actions: {
-      position: 'absolute',
-      display: 'flex',
-      justifyContent: 'end',
-      top: 0,
-      right: 0,
-      left: 0,
-      zIndex: 1,
-      height: 16,
-      background: 'rgba(0,0,0,.5)',
-      transition: 'all .3s ease',
-      backdropFilter: 'blur(20px)'
-    },
-  }
+	return {
+		root: {
+			'& .appear-item': {
+				opacity: 0,
+			},
+			'&:hover .appear-item': {
+				opacity: 1
+			}
+		},
+		wrapper: {
+			overflow: 'hidden',
+		},
+		card: {
+			position: 'relative'
+		},
+		image: {
+			transition: 'transform .3s ease',
+			objectFit: 'cover',
+			width: '100%',
+			display: 'block',
+			'&:hover': {
+				transform: 'scale(1.05)'
+			}
+		},
+		actions: {
+			position: 'absolute',
+			display: 'flex',
+			justifyContent: 'end',
+			top: 0,
+			right: 0,
+			left: 0,
+			zIndex: 1,
+			height: 16,
+			background: 'rgba(0,0,0,.5)',
+			transition: 'all .3s ease',
+			backdropFilter: 'blur(20px)'
+		},
+	}
 })
 
 export default function MovieCard({data}) {
-  const s = useStyles()
-  const isSignedIn = useSelector(state => state.auth.isSignedIn)
-  const currentUser = useSelector(state => state.auth.currentUser)
-  const favorites = useSelector(state => state.movies.favorites[currentUser]?.[data.id])
-  const dispatch = useDispatch()
-  const {poster, title, id} = data
-  const [isImgReady, setIsImgReady] = useState(false)
+	const s = useStyles()
+	const isSignedIn = useSelector(state => state.auth.isSignedIn)
+	const currentUser = useSelector(state => state.auth.currentUser)
+	const favorites = useSelector(state => state.movies.favorites?.[data.id])
+	const dispatch = useDispatch()
+	const {poster, title, id} = data
+	const [isImgReady, setIsImgReady] = useState(false)
 
-  const onImgLoad = e => setIsImgReady(true)
-  const toggleSaved = () => dispatch(toggleFavorites({currentUser, data}))
+	const onImgLoad = e => setIsImgReady(true)
+	const toggleSaved = () => dispatch(toggleFavorites({currentUser, data}))
 
-  return (
-    <Grid item xs={6} md={4} lg={3} xl={2} className={s.root}>
-      <div className={s.card}>
-        <CardActions className={classnames(s.actions, 'appear-item')}>
-          <FavoriteButton
-            isSignedIn={isSignedIn}
-            onClick={toggleSaved}
-            checked={Boolean(favorites)}
-          />
-        </CardActions>
-        {!isImgReady &&
-          <LazyLoadWrapper delay={1000}>
-            <SkeletonCard/>
-            <Skeleton variant="text"/>
-          </LazyLoadWrapper>
-        }
-        <BrowserLink to={`/movie/${id}/images`}>
-          <div className={s.wrapper}>
-            <RenderSmoothImage
-              src={poster || noPoster} alt={isImgReady ? title : ''}
-              onLoad={onImgLoad}
-            />
-          </div>
-        </BrowserLink>
-        {isImgReady &&
-          <Typography variant='subtitle2' noWrap>
-            {title}
-          </Typography>
-        }
-      </div>
-    </Grid>
-  )
+	return (
+		<Grid item xs={6} md={4} lg={3} xl={2} className={s.root}>
+			<div className={s.card}>
+				<CardActions className={classnames(s.actions, 'appear-item')}>
+					<FavoriteButton
+						isSignedIn={isSignedIn}
+						onClick={toggleSaved}
+						checked={Boolean(favorites)}
+					/>
+				</CardActions>
+				{!isImgReady &&
+					<LazyLoadWrapper delay={1000}>
+						<SkeletonCard/>
+						<Skeleton variant="text"/>
+					</LazyLoadWrapper>
+				}
+				<BrowserLink to={`/movie/${id}/images`}>
+					<div className={s.wrapper}>
+						<RenderSmoothImage
+							src={poster || noPoster} alt={isImgReady ? title : ''}
+							onLoad={onImgLoad}
+						/>
+					</div>
+				</BrowserLink>
+				{isImgReady &&
+					<Typography variant='subtitle2' noWrap>
+						{title}
+					</Typography>
+				}
+			</div>
+		</Grid>
+	)
 }

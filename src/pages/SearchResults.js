@@ -3,13 +3,13 @@ import {useDispatch, useSelector} from 'react-redux'
 import {useLazySearchMovieByNameQuery} from '../store/moviesApi'
 import {useEffect, useRef} from 'react'
 import CardContainer from '../components/CardContainer'
-import MovieCard from '../components/MovieCard'
 import Paginator from '../components/Paginatior'
 import AuthModal from '../components/AuthModal'
 import {setSearchResults} from '../store/searchSlice/searchSlice'
 import PagePlaceholder from '../components/PagePlaceholder'
 import noResultsImage from '../assets/search_error.png'
 import ScrollToTop from '../layout/ScrollToTop'
+import MovieCard from '../components/MovieCard'
 
 export default function SearchResults() {
   const dispatch = useDispatch()
@@ -57,6 +57,7 @@ export default function SearchResults() {
       <CardContainer>
         {moviesData && moviesData.map(movie => (
           <MovieCard
+            type='movie'
             data={movie}
             key={movie.id}
             id={movie.id}
