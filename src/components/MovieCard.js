@@ -15,7 +15,6 @@ import RenderSmoothImage from 'render-smooth-image-react'
 const useStyles = makeStyles(theme => {
 	return {
 		root: {
-			alignSelf: 'stretch',
 			'& .appear-item': {
 				opacity: 0,
 			},
@@ -27,7 +26,7 @@ const useStyles = makeStyles(theme => {
 			overflow: 'hidden',
 		},
 		card: {
-			position: 'relative',
+			position: 'relative'
 		},
 		image: {
 			transition: 'transform .3s ease',
@@ -51,48 +50,38 @@ const useStyles = makeStyles(theme => {
 			transition: 'all .3s ease',
 			backdropFilter: 'blur(20px)'
 		},
-		name: {
-			fontWeight: 500
-		}
 	}
 })
 
-export default function Card({data, type}) {
+export default function MovieCard({data}) {
 	const s = useStyles()
 	const isSignedIn = useSelector(state => state.auth.isSignedIn)
 	const currentUser = useSelector(state => state.auth.currentUser)
-	const favorites = useSelector(state => state.movies.favorites[currentUser]?.[data.id])
+	const favorites = useSelector(state => state.movies.favorites?.[data.id])
 	const dispatch = useDispatch()
-	const {poster, title, id , name, character} = data
+	const {poster, title, id} = data
 	const [isImgReady, setIsImgReady] = useState(false)
+
 	const onImgLoad = e => setIsImgReady(true)
 	const toggleSaved = () => dispatch(toggleFavorites({currentUser, data}))
 
 	return (
 		<Grid item xs={6} md={4} lg={3} xl={2} className={s.root}>
 			<div className={s.card}>
-				{type === 'movie' &&
-					<CardActions className={classnames(s.actions, 'appear-item')}>
-						<FavoriteButton
-							isSignedIn={isSignedIn}
-							onClick={toggleSaved}
-							checked={Boolean(favorites)}
-						/>
-					</CardActions>
-				}
+				<CardActions className={classnames(s.actions, 'appear-item')}>
+					<FavoriteButton
+						isSignedIn={isSignedIn}
+						onClick={toggleSaved}
+						checked={Boolean(favorites)}
+					/>
+				</CardActions>
 				{!isImgReady &&
-				<LazyLoadWrapper delay={1000}>
-					<SkeletonCard/>
-					<Skeleton variant="text"/>
-					{type === 'actor' &&
+					<LazyLoadWrapper delay={1000}>
+						<SkeletonCard/>
 						<Skeleton variant="text"/>
-					}
-				</LazyLoadWrapper>
+					</LazyLoadWrapper>
 				}
-				<BrowserLink to={type === 'movie'
-					? `/movie/${id}/images`
-					: `/actor/${id}`}
-				>
+				<BrowserLink to={`/movie/${id}/images`}>
 					<div className={s.wrapper}>
 						<RenderSmoothImage
 							src={poster || noPoster} alt={isImgReady ? title : ''}
@@ -100,20 +89,10 @@ export default function Card({data, type}) {
 						/>
 					</div>
 				</BrowserLink>
-				{isImgReady && type === 'movie' &&
+				{isImgReady &&
 					<Typography variant='subtitle2' noWrap>
 						{title}
 					</Typography>
-				}
-				{isImgReady && type === 'actor' &&
-					<>
-						<Typography variant='subtitle1' className={s.name} noWrap>
-							{name}
-						</Typography>
-						<Typography variant='subtitle1' color='textSecondary' noWrap>
-							{character}
-						</Typography>
-					</>
 				}
 			</div>
 		</Grid>

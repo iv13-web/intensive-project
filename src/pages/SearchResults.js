@@ -9,7 +9,7 @@ import {setSearchResults} from '../store/searchSlice'
 import PagePlaceholder from '../components/PagePlaceholder'
 import noResultsImage from '../assets/search_error.png'
 import ScrollToTop from '../layout/ScrollToTop'
-import Card from '../components/Card'
+import MovieCard from '../components/MovieCard'
 
 export default function SearchResults() {
   const dispatch = useDispatch()
@@ -56,7 +56,7 @@ export default function SearchResults() {
       <ScrollToTop deps={[page, query]}/>
       <CardContainer>
         {moviesData && moviesData.map(movie => (
-          <Card
+          <MovieCard
             type='movie'
             data={movie}
             key={movie.id}

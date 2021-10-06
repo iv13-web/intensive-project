@@ -7,7 +7,7 @@ import {storeCurrentPage} from '../store/pagesSlice'
 import {useEffect} from 'react'
 import ScrollToTop from '../layout/ScrollToTop'
 import AuthModal from '../components/AuthModal'
-import Card from '../components/Card'
+import MovieCard from '../components/MovieCard'
 
 export default function Catalog() {
   const {list, page} = useParams()
@@ -30,8 +30,7 @@ export default function Catalog() {
       }
       <CardContainer>
         {isSuccess && moviesData.map(movie => (
-          <Card
-            type='movie'
+          <MovieCard
             data={movie}
             key={movie.id}
             id={movie.id}
