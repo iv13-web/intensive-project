@@ -12,6 +12,7 @@ import PrivateRoute from './components/PrivateRoute'
 import SearchResults from './pages/SearchResults'
 import ExtendedSearch from './pages/ExtendedSearch/ExtendedSearch'
 import Actor from './pages/Actor/Actor'
+import History from './pages/History'
 import {ToastContainer} from 'react-toastify'
 import {Slide} from 'react-toastify'
 
@@ -26,12 +27,13 @@ export default function App() {
           <Route exact path='/' component={Home}/>
           <Route path='/s' component={ExtendedSearch}/>
           <Route path='/search' component={SearchResults}/>
-          <PrivateRoute path='/favorite' component={Favorite}/>
           <Route path='/movie/:id/:tab/' component={Movie}/>
           <Route path='/actor/:id' component={Actor}/>
           <Route path='/:list/:page' component={Catalog}/>
           <Route path='/signin' component={SignIn}/>
           <Route path='/signup' component={SignUp}/>
+          <PrivateRoute path='/favorite' component={Favorite}/>
+          <PrivateRoute path='/history' component={History} showModal/>
         </Switch>
       </Layout>
       <ToastContainer

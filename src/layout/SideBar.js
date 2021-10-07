@@ -1,6 +1,6 @@
 import {makeStyles} from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
-import List from '@material-ui/core/List'
+import HistoryIcon from '@material-ui/icons/History'
 import Divider from '@material-ui/core/Divider'
 import {headerHeight, sideBarWidth} from './constants'
 import ScheduleOutlinedIcon from '@material-ui/icons/ScheduleOutlined'
@@ -75,7 +75,13 @@ export default function SideBar({children}) {
       text: 'Upcoming',
       icon: <ConfirmationNumberOutlinedIcon color='inherit'/>,
       path: `/upcoming/${lists['upcoming']}`,
+    },
+    {
+      text: 'Search history',
+      icon: <HistoryIcon color='inherit'/>,
+      path: `/history`,
     }
+
   ]
 
   isSignedIn && linkItems.push({

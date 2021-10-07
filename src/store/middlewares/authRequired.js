@@ -1,7 +1,8 @@
 import {setAuthModalOpened} from '../authSlice'
 
 const authRequiredActionTypes = [
-	'movies/toggleFavorites'
+	'movies/toggleFavorites',
+	'app/triggerAuthModal'
 ]
 
 export const authRequiredMiddleware = store => next => action => {
@@ -12,6 +13,9 @@ export const authRequiredMiddleware = store => next => action => {
 
 	if (shouldCatchAction) {
 		if (action.type === 'movies/toggleFavorites') {
+			store.dispatch(setAuthModalOpened(true))
+		}
+		if (action.type === 'app/triggerAuthModal') {
 			store.dispatch(setAuthModalOpened(true))
 		}
 	}

@@ -4,6 +4,7 @@ import {Link as BrowserLink} from 'react-router-dom'
 import {ListItem, ListItemText, Typography} from '@material-ui/core'
 import noPoster from '../assets/poster-placeholder.png'
 import {headerHeight, sideBarWidth} from '../layout/constants'
+import {useLocation} from 'react-router-dom/cjs/react-router-dom'
 
 const useStyles = makeStyles(theme =>{
   return {
@@ -30,13 +31,14 @@ const useStyles = makeStyles(theme =>{
 
 export default function Suggest({moviesData, onClick}) {
   const s = useStyles()
+
   return (
     <div className={s.container}>
       <List >
         {moviesData.length > 0 && moviesData.map(movie => (
           <BrowserLink
             key={movie.id}
-            to={`/movie/${movie.id}/images`}
+            to={{pathname: `/movie/${movie.id}/images`, state: {fromSuggest: true}}}
             onClick={onClick}
           >
             <ListItem button>
