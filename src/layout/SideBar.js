@@ -49,7 +49,9 @@ export default function SideBar({children}) {
   const isSignedIn = useSelector(state => state.auth.isSignedIn)
   const lists = useSelector(state => state.pages)
   const favorites = useSelector(state => state.movies.favorites)
+  const historyItems = useSelector(state => state.search.history)
   const favoritesCount = favorites && Object.keys(favorites).length
+  const historyItemsCount = historyItems && Object.keys(historyItems).length
   const searchResultsCount = useSelector(state => state.search.searchResults?.totalResults)
   const dispatch = useDispatch()
   const {search: isOnSearchPage} = useLocation()
@@ -78,10 +80,11 @@ export default function SideBar({children}) {
     },
     {
       text: 'Search history',
-      icon: <HistoryIcon color='inherit'/>,
+      icon: <Badge badgeContent={historyItemsCount} color="primary">
+              <HistoryIcon color='inherit'/>
+            </Badge>,
       path: `/history`,
     }
-
   ]
 
   isSignedIn && linkItems.push({

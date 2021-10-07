@@ -8,8 +8,6 @@ export default function Favorite() {
   const favorites = useSelector(state => state.movies.favorites)
   const favoritesArray = favorites && Object.values(favorites)
 
-  console.log(favoritesArray)
-
   return (
     <>
       {!favoritesArray?.length &&

@@ -78,7 +78,6 @@ const searchSlice = createSlice({
 					[id]: {id, path, poster, genres, year, type, title}
 				}
 			}
-
 		},
 		clearHistory: (state) => {
 			Object.keys(state.history).forEach(key => {

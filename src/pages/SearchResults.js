@@ -25,8 +25,9 @@ export default function SearchResults() {
   const page = queryParams.get('page')
   const genres = queryParams.get('genres')
   const year = queryParams.get('year')
-  const {pathname, search} = useLocation()
+  const {pathname, search, state} = useLocation()
   const history = useHistory()
+
 
   useLayoutEffect(() => {
     if (!query && !genres && !year) {
@@ -38,16 +39,19 @@ export default function SearchResults() {
 
   useEffect(() => {
     if (isSuccess) {
-      const path = pathname + search
       dispatch(setSearchResults(data))
-      dispatch(saveToHistory({
-        type: 'fromFilters',
-        id: search,
-        path,
-        currentUser,
-        genres,
-        year
-      }))
+
+      if (state?.fromFilters) {
+        const path = pathname + search
+        dispatch(saveToHistory({
+          type: 'fromFilters',
+          id: search,
+          path,
+          currentUser,
+          genres,
+          year
+        }))
+      }
     }
   }, [isSuccess, data, currentUser])
 
@@ -86,7 +90,7 @@ export default function SearchResults() {
             />
           ))}
         </CardContainer>
-        {pagesCount &&
+        {pagesCount > 1 &&
           <Paginator
             count={pagesCount}
             page={Number(page)}

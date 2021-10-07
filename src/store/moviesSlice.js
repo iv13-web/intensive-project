@@ -17,7 +17,6 @@ const moviesSlice = createSlice({
 		},
 		toggleFavorites: (state, {payload}) => {
 			if (payload.currentUser) {
-				console.log(payload)
 				if (state.favorites?.[payload.data.id]) {
 					delete state.favorites[payload.data.id]
 					toast.warn(`${payload.data.title} removed from favorites`)

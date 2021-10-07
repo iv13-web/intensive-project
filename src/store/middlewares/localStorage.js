@@ -55,6 +55,9 @@ export const localStorageMiddleware = store => next => action => {
 		store.dispatch(clearFavorites())
 		store.dispatch(clearHistory())
 	}
+	if (clearHistory.match(action)) {
+		storage('history', {})
+	}
 	if (saveToHistory.match(action) && authenticated) {
 		const historyItems = store.getState().search.history
 		const personalHistory = {

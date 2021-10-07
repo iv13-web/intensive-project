@@ -45,7 +45,11 @@ export default function ExtendedSearch() {
   const handleSubmit = () => {
     if (genres || year) {
       isYearValid
-        ? history.push(`/search?&genres=${genres}&year=${year}&page=1`)
+        ? history.push({
+          pathname: `/search`,
+          search: `?&genres=${genres}&year=${year}&page=1`,
+          state: {fromFilters: true}
+        })
         : toast.error('Enter a valid year, please')
     }
   }
