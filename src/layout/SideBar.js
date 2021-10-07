@@ -12,12 +12,13 @@ import FindInPageOutlinedIcon from '@material-ui/icons/FindInPageOutlined'
 import NavLinks from '../components/NavLinks'
 import {useDispatch, useSelector} from 'react-redux'
 import {Badge} from '@material-ui/core'
-import {setInputQuery} from '../store/searchSlice'
+import {setInputQuery} from '../store/searchSlice/searchSlice'
 import {useLocation} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+
   },
   appBar: {
     width: `calc(100% - ${sideBarWidth}px)`,
@@ -26,18 +27,20 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: sideBarWidth,
     flexShrink: 0,
+
   },
   drawerPaper: {
     width: sideBarWidth,
-    position: 'sticky',
     top: headerHeight,
     height: `calc(100vh - ${headerHeight}px)`,
+    position: 'fixed',
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
     display: 'flex',
     flexDirection: 'column',
+    minHeight: `calc(100vh - ${headerHeight}px * 2 - 24px * 2)`
   },
 }))
 
@@ -102,9 +105,6 @@ export default function SideBar({children}) {
       >
         <NavLinks linkItems={linkItems}/>
         <Divider/>
-        <List>
-          {/* ИСТОРИЯ ПОИСКА */}
-        </List>
       </Drawer>
       <main className={s.content}>
         {children}

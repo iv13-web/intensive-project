@@ -3,7 +3,7 @@ import {makeStyles} from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
   container: {
-    margin: '30px 0',
+    margin: '30px 0 10px',
     display: 'flex',
     justifyContent: 'center',
     flexGrow: 2,

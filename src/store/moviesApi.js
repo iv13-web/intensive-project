@@ -8,6 +8,8 @@ import {
 	transformGetMovieTrailers
 } from './transformHelpers'
 const API_KEY = 'api_key=9adffccf59c02bd0dc729c1d92ccd822'
+const BASE_FILTER_PARAMS = 'language=en-US&include_adult=false&include_video=false&page=1'
+const BASE_DISCOVER_URL = `discover/movie?${API_KEY}&${BASE_FILTER_PARAMS}`
 export const IMG_URL = 'https://image.tmdb.org/t/p/w500'
 
 export const moviesApi = createApi({
@@ -48,9 +50,22 @@ export const moviesApi = createApi({
 			transformResponse: transformGetMovies
 		}),
 		searchMovieByName: build.query({
-			query: ({query, page}) => `search/movie?${API_KEY}&language=en-US&query=${query}&page=${page}`,
+			query: ({query, page}) => {
+					return `search/movie?${API_KEY}&language=en-US&query=${query}&page=${page}`
+			},
 			transformResponse: transformGetMovies
-		})
+		}),
+		searchMovies: build.query({
+			query: ({query, page, year, genres}) => {
+				if (query) {
+					return `search/movie?${API_KEY}&language=en-US&query=${query}&page=${page}`
+				}
+				const _year = year ? `&year=${year}` : ''
+				const _genres = genres.length ? `&with_genres=${genres}` : ''
+				return `${BASE_DISCOVER_URL}&page=${page}${_year}${_genres}&with_watch_monetization_types=flatrate`
+			},
+			transformResponse: transformGetMovies
+		}),
 	})
 })
 
@@ -63,5 +78,6 @@ export const {
 	useLazySearchMovieByNameQuery,
 	useGetActorByIdQuery,
 	useGetSimilarQuery,
-	useGetRecommendationsQuery
+	useGetRecommendationsQuery,
+	useLazySearchMoviesQuery
 } = moviesApi

@@ -15,7 +15,6 @@ const useStyles = makeStyles(theme => {
 
 export default function PagePlaceholder({image, text}) {
   const s = useStyles()
-
   return (
     <div className={s.wrapper}>
       {typeof image === 'object'

@@ -4,13 +4,12 @@ import {Link as BrowserLink} from 'react-router-dom'
 import {useState} from 'react'
 import Skeleton from '@material-ui/lab/Skeleton'
 import SkeletonCard from './SkeletonCard'
-import LazyLoadWrapper from './LazyLoadWrapper'
 import noPoster from '../assets/poster-placeholder.png'
 import classnames from 'classnames'
 import FavoriteButton from './FavoriteButton'
 import {useDispatch, useSelector} from 'react-redux'
 import {toggleFavorites} from '../store/moviesSlice'
-import RenderSmoothImage from 'render-smooth-image-react'
+
 
 const useStyles = makeStyles(theme => {
 	return {
@@ -20,21 +19,22 @@ const useStyles = makeStyles(theme => {
 			},
 			'&:hover .appear-item': {
 				opacity: 1
-			}
+			},
 		},
 		wrapper: {
 			overflow: 'hidden',
+			position: 'relative'
 		},
 		card: {
 			position: 'relative'
 		},
 		image: {
-			transition: 'transform .3s ease',
+			transition: 'transform .3s ease, opacity 1s ease',
 			objectFit: 'cover',
 			width: '100%',
 			display: 'block',
 			'&:hover': {
-				transform: 'scale(1.05)'
+				transform: 'scale(1.03)'
 			}
 		},
 		actions: {
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => {
 			height: 16,
 			background: 'rgba(0,0,0,.5)',
 			transition: 'all .3s ease',
-			backdropFilter: 'blur(20px)'
+			backdropFilter: 'blur(20px)',
 		},
 	}
 })
@@ -63,7 +63,9 @@ export default function MovieCard({data}) {
 	const [isImgReady, setIsImgReady] = useState(false)
 
 	const onImgLoad = e => setIsImgReady(true)
-	const toggleSaved = () => dispatch(toggleFavorites({currentUser, data}))
+	const toggleSaved = () => {
+		dispatch(toggleFavorites({currentUser, data}))
+	}
 
 	return (
 		<Grid item xs={6} md={4} lg={3} xl={2} className={s.root}>
@@ -76,16 +78,19 @@ export default function MovieCard({data}) {
 					/>
 				</CardActions>
 				{!isImgReady &&
-					<LazyLoadWrapper delay={1000}>
+					<>
 						<SkeletonCard/>
 						<Skeleton variant="text"/>
-					</LazyLoadWrapper>
+					</>
 				}
 				<BrowserLink to={`/movie/${id}/images`}>
 					<div className={s.wrapper}>
-						<RenderSmoothImage
-							src={poster || noPoster} alt={isImgReady ? title : ''}
+						<img
+							src={poster || noPoster}
+							className={s.image}
+							alt=""
 							onLoad={onImgLoad}
+							style={isImgReady ? {opacity: 1} : {opacity: 0}}
 						/>
 					</div>
 				</BrowserLink>
