@@ -27,11 +27,11 @@ export default function GenresFilter() {
       {Object.keys(GENRES).map(key => (
         <ToggleButton
           key={key}
-          value={GENRES[key]}
+          value={key}
           aria-label={key}
           className={s.toggleBtn}
         >
-          {key}
+          {GENRES[key]}
         </ToggleButton>
       ))}
     </SelectFilterWrapper>

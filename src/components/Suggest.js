@@ -30,13 +30,17 @@ const useStyles = makeStyles(theme =>{
 
 export default function Suggest({moviesData, onClick}) {
   const s = useStyles()
+
   return (
     <div className={s.container}>
       <List >
         {moviesData.length > 0 && moviesData.map(movie => (
           <BrowserLink
             key={movie.id}
-            to={`/movie/${movie.id}/images`}
+            to={{
+              pathname: `/movie/${movie.id}/images`,
+              state: {fromSuggest: true}
+            }}
             onClick={onClick}
           >
             <ListItem button>

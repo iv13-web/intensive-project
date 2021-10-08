@@ -9,10 +9,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import SearchBar from '../components/SearchBar'
 import RootLogo from '../components/RootLogo'
 import {useDispatch, useSelector} from 'react-redux'
-import {Button, LinearProgress} from '@material-ui/core'
+import {Button, LinearProgress, Tooltip, withStyles} from '@material-ui/core'
 import {Link as BrowserLink} from 'react-router-dom'
 import {signout} from '../store/authSlice'
-import LazyLoadWrapper from '../components/LazyLoadWrapper'
 
 const useStyles = makeStyles(theme => ({
 	grow: {
@@ -38,10 +37,21 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
+const BrightTooltip = withStyles(theme => ({
+	tooltip: {
+		backgroundColor: theme.palette.secondary.light,
+		color: '#fff',
+		boxShadow: theme.shadows[1],
+		fontSize: 11,
+		marginTop: 0,
+	},
+}))(Tooltip)
+
 export default function Header({children}) {
 	const s = useStyles()
 	const dispatch = useDispatch()
 	const isSignedIn = useSelector(state => state.auth.isSignedIn)
+	const currentUser = useSelector(state => state.auth.currentUser)
 	const isSearchFetching = useSelector(state => state.search.isSearchFetching)
 	const [anchorEl, setAnchorEl] = useState(null)
 	const isMenuOpen = Boolean(anchorEl)
@@ -62,15 +72,17 @@ export default function Header({children}) {
 					<RootLogo/>
 					<SearchBar/>
 					{isSignedIn
-						? <IconButton
-								edge="end"
-								aria-haspopup="true"
-								onClick={handleProfileMenuOpen}
-								color='inherit'
-								className={s.authBtn}
-							>
-								<AccountCircle />
-							</IconButton>
+						? <BrightTooltip title={currentUser} placement='bottom' >
+								<IconButton
+									edge="end"
+									aria-haspopup="true"
+									onClick={handleProfileMenuOpen}
+									color='inherit'
+									className={s.authBtn}
+								>
+									<AccountCircle />
+								</IconButton>
+							</BrightTooltip>
 						: <BrowserLink to='/signin'>
 								<Button color='inherit'>sign in</Button>
 							</BrowserLink>

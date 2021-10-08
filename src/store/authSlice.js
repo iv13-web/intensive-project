@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
+import {toast} from 'react-toastify'
 
 const initialState = {
 	isSignedIn: false,
@@ -34,6 +35,7 @@ const authSlice = createSlice({
 		signup: (state, {payload}) => {
 			if (!state.users[payload.email]) {
 				state.users[payload.email] = payload
+				toast.success('Account created successfully')
 			}
 		},
 	}

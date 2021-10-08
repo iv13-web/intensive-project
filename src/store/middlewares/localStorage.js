@@ -3,6 +3,7 @@ import {storage} from '../../utils/storage'
 import {clearFavorites, initFavorites, toggleFavorites} from '../moviesSlice'
 import {init} from '../appSlice'
 import {initAuth, signin, signout, signup} from '../authSlice'
+import {clearHistory, initHistory, saveToHistory} from '../searchSlice/searchSlice'
 
 export const localStorageMiddleware = store => next => action => {
 	next(action)
@@ -33,7 +34,9 @@ export const localStorageMiddleware = store => next => action => {
 		store.dispatch(initPages(storedPages))
 		const currentUser = store.getState().auth.currentUser
 		const storedFavorites = storage('favorites')?.[currentUser]
+		const storedHistory = storage('history')?.[currentUser]
 		store.dispatch(initFavorites(storedFavorites))
+		store.dispatch(initHistory(storedHistory))
 	}
 	if (signup.match(action)) {
 		const users = store.getState().auth.users
@@ -44,9 +47,23 @@ export const localStorageMiddleware = store => next => action => {
 		localStorage.setItem('isSignedIn', JSON.stringify(isSignedIn))
 		localStorage.setItem('currentUser', JSON.stringify(currentUser))
 		const storedFavorites = storage('favorites')?.[currentUser]
+		const storedHistory = storage('history')?.[currentUser]
 		store.dispatch(initFavorites(storedFavorites))
+		store.dispatch(initHistory(storedHistory))
 	}
 	if (signout.match(action)) {
 		store.dispatch(clearFavorites())
+		store.dispatch(clearHistory())
+	}
+	if (clearHistory.match(action)) {
+		storage('history', {})
+	}
+	if (saveToHistory.match(action) && authenticated) {
+		const historyItems = store.getState().search.history
+		const personalHistory = {
+			...storage('favorites'),
+			[currentUser]: historyItems
+		}
+		storage('history', personalHistory)
 	}
 }

@@ -5,7 +5,7 @@ import {useEffect, useLayoutEffect} from 'react'
 import CardContainer from '../components/CardContainer'
 import Paginator from '../components/Paginatior'
 import AuthModal from '../components/AuthModal'
-import {setSearchResults} from '../store/searchSlice/searchSlice'
+import {saveToHistory, setSearchResults} from '../store/searchSlice/searchSlice'
 import PagePlaceholder from '../components/PagePlaceholder'
 import noResultsImage from '../assets/search_error.png'
 import ScrollToTop from '../layout/ScrollToTop'
@@ -16,6 +16,7 @@ import {CARDS_PER_REQUEST} from './Catalog'
 export default function SearchResults() {
   const dispatch = useDispatch()
   const storedSearchResult = useSelector(state => state.search.searchResults)
+  const currentUser = useSelector(state => state.auth.currentUser)
   const [trigger, {data, isSuccess, isError, isFetching}] = useLazySearchMoviesQuery()
   const moviesData = storedSearchResult?.results
   const pagesCount = storedSearchResult?.totalPages
@@ -24,22 +25,35 @@ export default function SearchResults() {
   const page = queryParams.get('page')
   const genres = queryParams.get('genres')
   const year = queryParams.get('year')
-  const {pathname} = useLocation()
+  const {pathname, search, state} = useLocation()
   const history = useHistory()
+
 
   useLayoutEffect(() => {
     if (!query && !genres && !year) {
       return history.push('/s')
     }
-      dispatch(setSearchResults(null))
-      trigger({query, page, genres, year})
+    dispatch(setSearchResults(null))
+    trigger({query, page, genres, year})
   }, [query, page, genres, year])
 
   useEffect(() => {
     if (isSuccess) {
       dispatch(setSearchResults(data))
+
+      if (state?.fromFilters) {
+        const path = pathname + search
+        dispatch(saveToHistory({
+          type: 'fromFilters',
+          id: search,
+          path,
+          currentUser,
+          genres,
+          year
+        }))
+      }
     }
-  }, [isSuccess, data])
+  }, [isSuccess, data, currentUser])
 
   const handlePageChange = (e, page) => {
     dispatch(setSearchResults(null))
@@ -49,7 +63,7 @@ export default function SearchResults() {
     history.push(`${pathname}?&genres=${genres}&page=${page}`)
   }
 
-  if (moviesData?.length && !pagesCount || isError) {
+  if (moviesData?.length && (!pagesCount || isError)) {
     return (
       <PagePlaceholder
         image={noResultsImage}
@@ -76,7 +90,7 @@ export default function SearchResults() {
             />
           ))}
         </CardContainer>
-        {pagesCount &&
+        {pagesCount > 1 &&
           <Paginator
             count={pagesCount}
             page={Number(page)}

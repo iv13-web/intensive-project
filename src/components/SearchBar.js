@@ -95,6 +95,7 @@ export default function SearchBar() {
   const dispatch = useDispatch()
   const inputRef = useRef()
 
+
   const clearInput = (param = 'withBlur') => {
     dispatch(setInputQuery(''))
     param === 'withBlur' && inputRef.current.blur()
@@ -175,7 +176,7 @@ export default function SearchBar() {
       {query &&
         <Button
           color='inherit'
-          onClick={()  => clearInput('withFocus')}
+          onClick={() => clearInput('withFocus')}
         >
           Clear
         </Button>

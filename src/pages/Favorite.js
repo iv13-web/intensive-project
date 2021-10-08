@@ -7,6 +7,7 @@ import MovieCard from '../components/MovieCard'
 export default function Favorite() {
   const favorites = useSelector(state => state.movies.favorites)
   const favoritesArray = favorites && Object.values(favorites)
+
   return (
     <>
       {!favoritesArray?.length &&

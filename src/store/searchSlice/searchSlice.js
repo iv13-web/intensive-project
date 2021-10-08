@@ -9,13 +9,20 @@ const initialState = {
 	selectedGenres: [],
 	enteredYear: '',
 	filterQuery: {},
-	isYearValid: true
+	isYearValid: true,
+	history: {}
 }
 
 const searchSlice = createSlice({
 	name: 'search',
 	initialState,
 	reducers: {
+		initHistory: (state, {payload}) => {
+			if (payload) {
+				state.history = payload
+			}
+			return state
+		},
 		setInputQuery: (state, {payload}) => {
 			state.query = payload
 		},
@@ -49,6 +56,33 @@ const searchSlice = createSlice({
 			state.enteredYear = ''
 			state.filterQuery = {}
 			state.isYearValid = true
+		},
+		saveToHistory: (state, {payload}) => {
+			const {
+				id,
+				path,
+				currentUser,
+				poster,
+				genres,
+				year,
+				type,
+				title
+			} = payload
+
+			if (currentUser) {
+				if (state.history?.[currentUser]?.[id]) {
+					return state
+				}
+				state.history = {
+					...state.history,
+					[id]: {id, path, poster, genres, year, type, title}
+				}
+			}
+		},
+		clearHistory: (state) => {
+			Object.keys(state.history).forEach(key => {
+				delete state.history[key]
+			})
 		}
 	}
 })
@@ -63,5 +97,8 @@ export const {
 	setFilterQuery,
 	clearFilters,
 	setYear,
-	setYearValidity
+	setYearValidity,
+	saveToHistory,
+	initHistory,
+	clearHistory
 } = searchSlice.actions

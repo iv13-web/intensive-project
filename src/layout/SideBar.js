@@ -1,6 +1,6 @@
 import {makeStyles} from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
-import List from '@material-ui/core/List'
+import HistoryIcon from '@material-ui/icons/History'
 import Divider from '@material-ui/core/Divider'
 import {headerHeight, sideBarWidth} from './constants'
 import ScheduleOutlinedIcon from '@material-ui/icons/ScheduleOutlined'
@@ -49,7 +49,9 @@ export default function SideBar({children}) {
   const isSignedIn = useSelector(state => state.auth.isSignedIn)
   const lists = useSelector(state => state.pages)
   const favorites = useSelector(state => state.movies.favorites)
+  const historyItems = useSelector(state => state.search.history)
   const favoritesCount = favorites && Object.keys(favorites).length
+  const historyItemsCount = historyItems && Object.keys(historyItems).length
   const searchResultsCount = useSelector(state => state.search.searchResults?.totalResults)
   const dispatch = useDispatch()
   const {search: isOnSearchPage} = useLocation()
@@ -75,6 +77,13 @@ export default function SideBar({children}) {
       text: 'Upcoming',
       icon: <ConfirmationNumberOutlinedIcon color='inherit'/>,
       path: `/upcoming/${lists['upcoming']}`,
+    },
+    {
+      text: 'Search history',
+      icon: <Badge badgeContent={historyItemsCount} color="primary">
+              <HistoryIcon color='inherit'/>
+            </Badge>,
+      path: `/history`,
     }
   ]
 

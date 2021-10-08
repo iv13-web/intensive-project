@@ -33,7 +33,7 @@ const moviesSlice = createSlice({
 			Object.keys(state.favorites).forEach(key => {
 				delete state.favorites[key]
 			})
-		}
+		},
 	},
 })
 

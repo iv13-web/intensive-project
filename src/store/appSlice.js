@@ -8,7 +8,7 @@ const appSlice = createSlice({
 	reducers: {
 		init: (state) => {
 			state.init = true
-		}
+		},
 	}
 })
 
