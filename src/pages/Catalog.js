@@ -1,5 +1,5 @@
 import {useHistory, useParams} from 'react-router-dom/cjs/react-router-dom'
-import {useGetMoviesQuery} from '../store/moviesApi'
+import {useGetMoviesQuery} from '../services/moviesApi'
 import CardContainer from '../components/CardContainer'
 import Paginator from '../components/Paginatior'
 import {useDispatch} from 'react-redux'

@@ -1,10 +1,8 @@
-import {IMG_URL} from './moviesApi'
+import {IMG_URL} from '../services/moviesApi'
 import {numberWithSeparator} from '../utils/numberWithSeparator'
 
-export const transformGetMovies = response => {
-	const totalPages = response.total_pages
-	const totalResults = response.total_results
-	const updated = response.results.map(movie => ({
+const standardMovieTransform = movie => {
+	return {
 		poster: movie.poster_path ? IMG_URL + movie.poster_path : null,
 		genres: movie.genre_ids,
 		release: movie.release_date,
@@ -12,7 +10,13 @@ export const transformGetMovies = response => {
 		id: movie.id,
 		rating: movie.vote_average,
 		votesCount: movie.vote_count,
-	}))
+	}
+}
+
+export const transformGetMovies = response => {
+	const totalPages = response.total_pages
+	const totalResults = response.total_results
+	const updated = response.results.map(standardMovieTransform)
 
 	return {totalPages, results: updated, totalResults}
 }
@@ -42,7 +46,7 @@ export const transformGetActorById = response => {
 		birthday: response.birthday?.split('-').reverse().join('.'),
 		deathday: response.deathday,
 		name: response.name,
-		birthPlace: response.place_of_birth,
+		birthplace: response.place_of_birth,
 		photo: IMG_URL + response.profile_path
 	}
 }
@@ -52,6 +56,16 @@ export const transformGetMovieImages = response => {
 		...response.backdrops.map(item => IMG_URL + item.file_path),
 		...response.posters.map(item => IMG_URL + item.file_path)
 	]
+}
+
+export const transformGetActorImages = response => {
+	return response.profiles.map(item => IMG_URL + item.file_path)
+}
+
+export const transformGetActorMovies = response => {
+	return response?.cast
+		.filter(movie => movie.poster_path)
+		.map(standardMovieTransform)
 }
 
 export const transformGetMovieTrailers = response => {

@@ -7,10 +7,10 @@ import {useParams} from 'react-router-dom'
 const useStyles = makeStyles(theme => {
 	return {
 		item: {
-			margin: '0 30px',
 			height: 40,
 			cursor: 'pointer',
-			color: theme.palette.text.hint
+			color: theme.palette.text.hint,
+			width: '100%'
 		},
 		active: {
 			color: theme.palette.primary.main
@@ -22,12 +22,13 @@ const useStyles = makeStyles(theme => {
 			marginBottom: 20,
 			backgroundColor: theme.palette.grey['200'],
 			margin: '0 -24px',
-			width: 'calc(100% + 8px)'
-		}
+			width: 'calc(100% + 48px)',
+			padding: 0,
+		},
 	}
 })
 
-export default function TabsContainer({children}) {
+export default function TabsContainer({children, category}) {
 	const s = useStyles()
 	const {id, tab} = useParams()
 	const selectedTab = children.findIndex(item => item.props.title.toLowerCase() === tab)
@@ -40,7 +41,8 @@ export default function TabsContainer({children}) {
 					return (
 						<BrowserLink
 							key={index}
-							to={`/movie/${id}/${tabTitle}`}
+							to={`/${category}/${id}/${tabTitle}`}
+							style={{width:`${100 / children.length}%`}}
 						>
 							<Button
 								className={classnames(s.item, {[s.active]: tabTitle === tab})}

@@ -1,12 +1,12 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {
-	transformGetActorById,
+	transformGetActorById, transformGetActorImages, transformGetActorMovies,
 	transformGetActorsQuery,
 	transformGetMovieImages,
 	transformGetMovies,
 	transformGetMoviesById,
 	transformGetMovieTrailers
-} from './transformHelpers'
+} from '../store/transformHelpers'
 
 const API_KEY = 'api_key=9adffccf59c02bd0dc729c1d92ccd822'
 const BASE_FILTER_PARAMS = 'language=en-US&include_adult=false&include_video=false&page=1'
@@ -33,6 +33,14 @@ export const moviesApi = createApi({
 		getMovieImages: build.query({
 			query: (id) => `movie/${id}/images?${API_KEY}&language=en`,
 			transformResponse: transformGetMovieImages
+		}),
+		getActorImages: build.query({
+			query: (id) => `person/${id}/images?${API_KEY}`,
+			transformResponse: transformGetActorImages
+		}),
+		getActorMovies: build.query({
+			query: (id) => `person/${id}/movie_credits?${API_KEY}`,
+			transformResponse: transformGetActorMovies
 		}),
 		getMovieTrailers: build.query({
 			query: (id) => `movie/${id}/videos?${API_KEY}&language=en`,
@@ -78,6 +86,8 @@ export const {
 	useGetActorsQuery,
 	useLazySearchMovieByNameQuery,
 	useGetActorByIdQuery,
+	useGetActorImagesQuery,
+	useGetActorMoviesQuery,
 	useGetSimilarQuery,
 	useGetRecommendationsQuery,
 	useLazySearchMoviesQuery

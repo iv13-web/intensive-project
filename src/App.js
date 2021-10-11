@@ -28,7 +28,7 @@ export default function App() {
           <Route path='/s' component={ExtendedSearch}/>
           <Route path='/search' component={SearchResults}/>
           <Route path='/movie/:id/:tab/' component={Movie}/>
-          <Route path='/actor/:id' component={Actor}/>
+          <Route path='/actor/:id/:tab/' component={Actor}/>
           <Route path='/:list/:page' component={Catalog}/>
           <Route path='/signin' component={SignIn}/>
           <Route path='/signup' component={SignUp}/>

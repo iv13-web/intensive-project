@@ -55,7 +55,7 @@ export default function ActorCard({data}) {
             <Skeleton variant="text"/>
           </LazyLoadWrapper>
         }
-        <BrowserLink to={`/actor/${id}`}>
+        <BrowserLink to={`/actor/${id}/photos`}>
           <div className={s.wrapper}>
             <img
               src={poster || noPoster}

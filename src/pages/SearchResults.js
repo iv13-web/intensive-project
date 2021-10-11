@@ -1,6 +1,6 @@
 import {useHistory, useLocation} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
-import {useLazySearchMoviesQuery} from '../store/moviesApi'
+import {useLazySearchMoviesQuery} from '../services/moviesApi'
 import {useEffect, useLayoutEffect} from 'react'
 import CardContainer from '../components/CardContainer'
 import Paginator from '../components/Paginatior'
