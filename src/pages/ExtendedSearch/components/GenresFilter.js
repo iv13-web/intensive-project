@@ -1,6 +1,6 @@
 import {GENRES} from '../../../store/searchSlice/genres'
 import {ToggleButton} from '@material-ui/lab'
-import SelectFilterWrapper from './selectFilterWrapper'
+import SelectFilterWrapper from './SelectFilterWrapper'
 import {makeStyles} from '@material-ui/core/styles'
 import {useDispatch, useSelector} from 'react-redux'
 import {setFilterQuery, setGenres} from '../../../store/searchSlice/searchSlice'
@@ -23,7 +23,11 @@ export default function GenresFilter() {
   }
 
   return (
-    <SelectFilterWrapper onChange={handleGenresSelect} value={genres}>
+    <SelectFilterWrapper
+      onChange={handleGenresSelect}
+      value={genres}
+      title='Select genres'
+    >
       {Object.keys(GENRES).map(key => (
         <ToggleButton
           key={key}

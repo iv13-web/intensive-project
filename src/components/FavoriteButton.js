@@ -2,6 +2,7 @@ import IconButton from '@material-ui/core/IconButton'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import {makeStyles} from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme => {
 	return {
@@ -30,4 +31,10 @@ export default function FavoriteButton({checked, isSignedIn, onClick}) {
 			}
 		</IconButton>
   )
+}
+
+FavoriteButton.propTypes = {
+	checked: PropTypes.bool,
+	isSignedIn: PropTypes.bool,
+	onClick: PropTypes.func
 }
