@@ -7,6 +7,7 @@ import {
 	transformGetMoviesById,
 	transformGetMovieTrailers
 } from './transformHelpers'
+
 const API_KEY = 'api_key=9adffccf59c02bd0dc729c1d92ccd822'
 const BASE_FILTER_PARAMS = 'language=en-US&include_adult=false&include_video=false&page=1'
 const BASE_DISCOVER_URL = `discover/movie?${API_KEY}&${BASE_FILTER_PARAMS}`
@@ -51,7 +52,7 @@ export const moviesApi = createApi({
 		}),
 		searchMovieByName: build.query({
 			query: ({query, page}) => {
-					return `search/movie?${API_KEY}&language=en-US&query=${query}&page=${page}`
+				return `search/movie?${API_KEY}&language=en-US&query=${query}&page=${page}`
 			},
 			transformResponse: transformGetMovies
 		}),

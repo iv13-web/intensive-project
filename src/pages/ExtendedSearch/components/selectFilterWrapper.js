@@ -26,13 +26,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function SelectFilterWrapper({children, onChange, value}) {
+export default function SelectFilterWrapper({children, onChange, value, title}) {
   const s = useStyles()
 
   return (
     <div className={s.wrapper}>
       <Typography variant='h6' color='primary' gutterBottom>
-        Select genres
+        {title}
       </Typography>
       <Paper elevation={0}>
         <StyledToggleButtonGroup

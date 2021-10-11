@@ -7,6 +7,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import {clearHistory} from '../store/searchSlice/searchSlice'
 import PagePlaceholder from '../components/PagePlaceholder'
 import noSearchHistory from '../assets/no-search-history.png'
+import LazyLoadWrapper from '../components/LazyLoadWrapper'
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -25,10 +26,12 @@ export default function History() {
   const handleClearHistory = () => dispatch(clearHistory())
 
   if (!anyHistoryItems) {
-    return <PagePlaceholder
-      text='No search history yet'
-      image={noSearchHistory}
-    />
+    return (
+      <PagePlaceholder
+        image={noSearchHistory}
+        text='No search history yet'
+      />
+    )
   }
 
   return (

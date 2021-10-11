@@ -52,7 +52,7 @@ export default function SideBar({children}) {
   const historyItems = useSelector(state => state.search.history)
   const favoritesCount = favorites && Object.keys(favorites).length
   const historyItemsCount = historyItems && Object.keys(historyItems).length
-  const searchResultsCount = useSelector(state => state.search.searchResults?.totalResults)
+  const searchResultsCount = useSelector(state => state.search.searchResultsCount)
   const dispatch = useDispatch()
   const {search: isOnSearchPage} = useLocation()
   const {pathname} = useLocation()

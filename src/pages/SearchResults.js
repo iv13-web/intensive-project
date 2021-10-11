@@ -5,7 +5,7 @@ import {useEffect, useLayoutEffect} from 'react'
 import CardContainer from '../components/CardContainer'
 import Paginator from '../components/Paginatior'
 import AuthModal from '../components/AuthModal'
-import {saveToHistory, setSearchResults} from '../store/searchSlice/searchSlice'
+import {saveToHistory, setSearchResults, setSearchResultsCount} from '../store/searchSlice/searchSlice'
 import PagePlaceholder from '../components/PagePlaceholder'
 import noResultsImage from '../assets/search_error.png'
 import ScrollToTop from '../layout/ScrollToTop'
@@ -28,7 +28,6 @@ export default function SearchResults() {
   const {pathname, search, state} = useLocation()
   const history = useHistory()
 
-
   useLayoutEffect(() => {
     if (!query && !genres && !year) {
       return history.push('/s')
@@ -40,7 +39,7 @@ export default function SearchResults() {
   useEffect(() => {
     if (isSuccess) {
       dispatch(setSearchResults(data))
-
+      dispatch(setSearchResultsCount(data.totalResults))
       if (state?.fromFilters) {
         const path = pathname + search
         dispatch(saveToHistory({
@@ -52,6 +51,9 @@ export default function SearchResults() {
           year
         }))
       }
+    }
+    return () => {
+      dispatch(setSearchResultsCount(null))
     }
   }, [isSuccess, data, currentUser])
 

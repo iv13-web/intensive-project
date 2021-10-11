@@ -5,6 +5,7 @@ const initialState = {
 	query: '',
 	isSearchFetching: false,
 	searchResults: null,
+	searchResultsCount: null,
 	suggestResults: null,
 	selectedGenres: [],
 	enteredYear: '',
@@ -83,6 +84,9 @@ const searchSlice = createSlice({
 			Object.keys(state.history).forEach(key => {
 				delete state.history[key]
 			})
+		},
+		setSearchResultsCount: (state, {payload}) => {
+			state.searchResultsCount = payload
 		}
 	}
 })
@@ -100,5 +104,6 @@ export const {
 	setYearValidity,
 	saveToHistory,
 	initHistory,
-	clearHistory
+	clearHistory,
+	setSearchResultsCount
 } = searchSlice.actions
