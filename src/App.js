@@ -1,6 +1,6 @@
 import {HashRouter, Route, Switch} from "react-router-dom"
 import {useDispatch} from 'react-redux'
-import Home from './pages/Home'
+import Home from './pages/Home/Home'
 import Catalog from './pages/Catalog'
 import Favorite from './pages/Favorite'
 import Layout from './layout/Layout'

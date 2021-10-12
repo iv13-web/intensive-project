@@ -1,5 +1,6 @@
 import {IMG_URL} from '../services/moviesApi'
 import {numberWithSeparator} from '../utils/numberWithSeparator'
+import {randomInteger} from '../utils/randomInteger'
 
 const standardMovieTransform = movie => {
 	return {
@@ -10,7 +11,13 @@ const standardMovieTransform = movie => {
 		id: movie.id,
 		rating: movie.vote_average,
 		votesCount: movie.vote_count,
+		overview: movie.overview,
 	}
+}
+
+export const transformGetIntroMovie = response => {
+	const result =  response.results[randomInteger(0, 19)]
+	return standardMovieTransform(result)
 }
 
 export const transformGetMovies = response => {

@@ -1,7 +1,7 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {
 	transformGetActorById, transformGetActorImages, transformGetActorMovies,
-	transformGetActorsQuery,
+	transformGetActorsQuery, transformGetIntroMovie,
 	transformGetMovieImages,
 	transformGetMovies,
 	transformGetMoviesById,
@@ -17,10 +17,14 @@ export const moviesApi = createApi({
 	reducerPath: 'moviesApi',
 	baseQuery: fetchBaseQuery({baseUrl: 'https://api.themoviedb.org/3/'}),
 	endpoints: (build) => ({
+		getIntroMovie: build.query({
+			keepUnusedDataFor: 0,
+			query: () => `movie/now_playing?${API_KEY}&language=en-US&page=1`,
+			transformResponse: transformGetIntroMovie,
+		}),
 		getMovies: build.query({
 			query: ({list, page}) => `movie/${list}?${API_KEY}&language=en-US&page=${page}`,
 			transformResponse: transformGetMovies,
-
 		}),
 		getMovieById: build.query({
 			query: (id) => `movie/${id}?${API_KEY}&language=en-US`,
@@ -80,6 +84,7 @@ export const moviesApi = createApi({
 
 export const {
 	useGetMoviesQuery,
+	useGetIntroMovieQuery,
 	useGetMovieByIdQuery,
 	useGetMovieImagesQuery,
 	useGetMovieTrailersQuery,
@@ -90,5 +95,6 @@ export const {
 	useGetActorMoviesQuery,
 	useGetSimilarQuery,
 	useGetRecommendationsQuery,
-	useLazySearchMoviesQuery
+	useLazySearchMoviesQuery,
+	getIntroMovie
 } = moviesApi
