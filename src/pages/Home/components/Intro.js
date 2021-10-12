@@ -5,6 +5,9 @@ import {Rating} from '@material-ui/lab'
 import {Link as BrowserLink} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
+	introSection: {
+		marginBottom: 96
+	},
 	wrapper: {
 		position: 'relative',
 		display: 'flex',
@@ -42,7 +45,7 @@ const useStyles = makeStyles(theme => ({
 		zIndex: 2,
 		height: 420,
 		display: 'block',
-		paddingLeft: 40
+		paddingLeft: theme.spacing(3)
 	}
 }))
 
@@ -53,30 +56,32 @@ export default function Intro() {
 
 	return (
 		isSuccess &&
-			<BrowserLink to={`/movie/${id}/images`}>
-				<div className={s.wrapper} style={{backgroundImage: `url(${data.poster})`}}>
-					<div className={s.imageWrapper}>
+		<section className={s.introSection}>
+			<div className={s.wrapper} style={{backgroundImage: `url(${data.poster})`}}>
+				<div className={s.imageWrapper}>
+					<BrowserLink to={`/movie/${id}/images`}>
 						<img src={data.poster} alt={data.title} className={s.image}/>
-					</div>
-					<div className={s.text}>
-						<Typography variant='h4' gutterBottom color='textPrimary'>
-							{title}
-						</Typography>
-						<div className={s.ratingWrapper}>
-							<Rating
-								value={rating / 2}
-								readOnly
-								className={s.rating}
-							/>
-							<Typography>
-								{rating}
-							</Typography>
-						</div>
-						<Typography variant='body2'>
-							{overview}
-						</Typography>
-					</div>
+					</BrowserLink>
 				</div>
-			</BrowserLink>
+				<div className={s.text}>
+					<Typography variant='h4' gutterBottom color='textPrimary'>
+						{title}
+					</Typography>
+					<div className={s.ratingWrapper}>
+						<Rating
+							value={rating / 2}
+							readOnly
+							className={s.rating}
+						/>
+						<Typography>
+							{rating}
+						</Typography>
+					</div>
+					<Typography variant='body2'>
+						{overview}
+					</Typography>
+				</div>
+			</div>
+		</section>
 	)
 }
