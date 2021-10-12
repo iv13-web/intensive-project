@@ -4,7 +4,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import {debounce} from '../utils/debounce'
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {useHistory, useLocation} from 'react-router-dom'
-import {useLazySearchMovieByNameQuery} from '../store/moviesApi'
+import {useLazySearchMovieByNameQuery} from '../services/moviesApi'
 import {useDispatch, useSelector} from 'react-redux'
 import {Link as BrowserLink} from 'react-router-dom'
 import {

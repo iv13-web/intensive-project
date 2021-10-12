@@ -1,12 +1,12 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {
-	transformGetActorById,
-	transformGetActorsQuery,
+	transformGetActorById, transformGetActorImages, transformGetActorMovies,
+	transformGetActorsQuery, transformGetIntroMovie,
 	transformGetMovieImages,
 	transformGetMovies,
 	transformGetMoviesById,
 	transformGetMovieTrailers
-} from './transformHelpers'
+} from '../store/transformHelpers'
 
 const API_KEY = 'api_key=9adffccf59c02bd0dc729c1d92ccd822'
 const BASE_FILTER_PARAMS = 'language=en-US&include_adult=false&include_video=false&page=1'
@@ -17,10 +17,14 @@ export const moviesApi = createApi({
 	reducerPath: 'moviesApi',
 	baseQuery: fetchBaseQuery({baseUrl: 'https://api.themoviedb.org/3/'}),
 	endpoints: (build) => ({
+		getIntroMovie: build.query({
+			keepUnusedDataFor: 0,
+			query: () => `movie/now_playing?${API_KEY}&language=en-US&page=1`,
+			transformResponse: transformGetIntroMovie,
+		}),
 		getMovies: build.query({
 			query: ({list, page}) => `movie/${list}?${API_KEY}&language=en-US&page=${page}`,
 			transformResponse: transformGetMovies,
-
 		}),
 		getMovieById: build.query({
 			query: (id) => `movie/${id}?${API_KEY}&language=en-US`,
@@ -33,6 +37,14 @@ export const moviesApi = createApi({
 		getMovieImages: build.query({
 			query: (id) => `movie/${id}/images?${API_KEY}&language=en`,
 			transformResponse: transformGetMovieImages
+		}),
+		getActorImages: build.query({
+			query: (id) => `person/${id}/images?${API_KEY}`,
+			transformResponse: transformGetActorImages
+		}),
+		getActorMovies: build.query({
+			query: (id) => `person/${id}/movie_credits?${API_KEY}`,
+			transformResponse: transformGetActorMovies
 		}),
 		getMovieTrailers: build.query({
 			query: (id) => `movie/${id}/videos?${API_KEY}&language=en`,
@@ -72,13 +84,17 @@ export const moviesApi = createApi({
 
 export const {
 	useGetMoviesQuery,
+	useGetIntroMovieQuery,
 	useGetMovieByIdQuery,
 	useGetMovieImagesQuery,
 	useGetMovieTrailersQuery,
 	useGetActorsQuery,
 	useLazySearchMovieByNameQuery,
 	useGetActorByIdQuery,
+	useGetActorImagesQuery,
+	useGetActorMoviesQuery,
 	useGetSimilarQuery,
 	useGetRecommendationsQuery,
-	useLazySearchMoviesQuery
+	useLazySearchMoviesQuery,
+	getIntroMovie
 } = moviesApi

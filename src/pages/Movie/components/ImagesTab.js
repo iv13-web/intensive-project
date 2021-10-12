@@ -1,4 +1,4 @@
-import {useGetMovieImagesQuery} from '../../../store/moviesApi'
+import {useGetMovieImagesQuery} from '../../../services/moviesApi'
 import Gallery from '../../../components/Gallery'
 import PagePlaceholder from '../../../components/PagePlaceholder'
 import TabLoader from './TabLoader'

@@ -37,7 +37,7 @@ const ROW_TITLES = [
   'revenue',
 ]
 
-const createCellText = (title, separator) => (
+export const createCellText = (title, separator) => (
   <Typography variant='subtitle1' color='textSecondary'>
     {separator ? title + separator : title}
   </Typography>
@@ -62,7 +62,7 @@ export default function Intro({data}) {
             {ROW_TITLES.map(rowTitle => (
               <tr key={rowTitle}>
                 <td className={s.pointCell}>{createCellText(rowTitle, ':')}</td>
-                <td>{createCellText(data[rowTitle])}</td>
+                <td>{createCellText(data[rowTitle] || '-')}</td>
               </tr>
             ))}
           </tbody>

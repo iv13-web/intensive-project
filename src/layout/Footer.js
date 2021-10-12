@@ -49,6 +49,7 @@ export default function Footer() {
 					<a
 						href="https://github.com/iv13-web/intensive-project/tree/master"
 						target='_blank'
+						rel="noreferrer"
 					>
 						<IconButton color='inherit'><GitHubIcon/></IconButton>
 					</a>
@@ -63,7 +64,11 @@ export default function Footer() {
 					<Typography variant="overline" className={s.line}>
 						Data provided by
 					</Typography>
-						<a href='https://www.themoviedb.org/documentation/api' target='_blank'>
+						<a
+							href='https://www.themoviedb.org/documentation/api'
+							target='_blank'
+							rel="noreferrer"
+						>
 							<TmdbLogo className={s.logo}/>
 						</a>
 				</Toolbar>

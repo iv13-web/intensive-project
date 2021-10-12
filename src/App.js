@@ -1,6 +1,6 @@
 import {HashRouter, Route, Switch} from "react-router-dom"
 import {useDispatch} from 'react-redux'
-import Home from './pages/Home'
+import Home from './pages/Home/Home'
 import Catalog from './pages/Catalog'
 import Favorite from './pages/Favorite'
 import Layout from './layout/Layout'
@@ -28,7 +28,7 @@ export default function App() {
           <Route path='/s' component={ExtendedSearch}/>
           <Route path='/search' component={SearchResults}/>
           <Route path='/movie/:id/:tab/' component={Movie}/>
-          <Route path='/actor/:id' component={Actor}/>
+          <Route path='/actor/:id/:tab/' component={Actor}/>
           <Route path='/:list/:page' component={Catalog}/>
           <Route path='/signin' component={SignIn}/>
           <Route path='/signup' component={SignUp}/>

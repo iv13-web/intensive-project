@@ -1,5 +1,5 @@
 import CardContainer from '../../../components/CardContainer'
-import {useGetSimilarQuery} from '../../../store/moviesApi'
+import {useGetSimilarQuery} from '../../../services/moviesApi'
 import PagePlaceholder from '../../../components/PagePlaceholder'
 import TabLoader from './TabLoader'
 import MovieCard from '../../../components/MovieCard'

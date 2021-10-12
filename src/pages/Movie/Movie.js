@@ -1,6 +1,6 @@
 import Intro from './components/Intro'
 import {useParams} from 'react-router-dom'
-import {useGetMovieByIdQuery} from '../../store/moviesApi'
+import {useGetMovieByIdQuery} from '../../services/moviesApi'
 import TabsContainer from '../../components/TabsContainer'
 import ImagesTab from './components/ImagesTab'
 import TrailersTab from './components/TrailersTab'
@@ -36,10 +36,8 @@ export default function Movie() {
 
   return (
     <>
-      {isSuccess &&
-        <Intro data={data}/>
-      }
-      <TabsContainer>
+      {isSuccess && <Intro data={data}/>}
+      <TabsContainer category='movie'>
         <ImagesTab id={id} title='images'/>
         <TrailersTab id={id} title='trailers'/>
         <ActorsTab id={id} title='actors'/>

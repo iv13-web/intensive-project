@@ -1,5 +1,5 @@
 import CardContainer from '../../../components/CardContainer'
-import {useGetRecommendationsQuery} from '../../../store/moviesApi'
+import {useGetRecommendationsQuery} from '../../../services/moviesApi'
 import PagePlaceholder from '../../../components/PagePlaceholder'
 import TabLoader from './TabLoader'
 import MovieCard from '../../../components/MovieCard'

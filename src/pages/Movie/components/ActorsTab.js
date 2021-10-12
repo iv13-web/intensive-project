@@ -1,4 +1,4 @@
-import {useGetActorsQuery} from '../../../store/moviesApi'
+import {useGetActorsQuery} from '../../../services/moviesApi'
 import CardContainer from '../../../components/CardContainer'
 import PagePlaceholder from '../../../components/PagePlaceholder'
 import TabLoader from './TabLoader'
